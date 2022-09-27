@@ -5,8 +5,6 @@ import Navbar from "./components/Navbar";
 import TodoList from "./components/TodoList";
 
 function App() {
-  const id = useId();
-  console.log(id);
   return (
     <div className="App">
       <div className="grid place-items-center bg-blue-100 h-screen px-6 font-sans">
