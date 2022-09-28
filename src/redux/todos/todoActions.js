@@ -1,6 +1,12 @@
 // todo add action
 
-import { TODODELETE, TODOTOGGLED } from "./todoActionTypes";
+import {
+  TODOCLEARALL,
+  TODOCOLORSELECT,
+  TODOCOMPLETEALL,
+  TODODELETE,
+  TODOTOGGLED,
+} from "./todoActionTypes";
 
 const todoAddAction = (action) => {
   return {
@@ -12,6 +18,32 @@ const todoAddAction = (action) => {
 const todoDeleteAction = (action) => {
   return {
     type: TODODELETE,
+    payload: action.payload,
+  };
+};
+
+const todoColorSelectAction = (action) => {
+  return {
+    type: TODOCOLORSELECT,
+    payload: action.payload,
+  };
+};
+
+const todoCompleteAllAction = () => {
+  return {
+    type: TODOCOMPLETEALL,
+  };
+};
+
+const todoClearCompleteAction = () => {
+  return {
+    type: TODOCLEARALL,
+  };
+};
+
+const todoToggledAction = (action) => {
+  return {
+    type: TODOTOGGLED,
     payload: action.payload,
   };
 };
