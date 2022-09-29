@@ -26,7 +26,15 @@ const initialState = [
 const todoReducer = (state = initialState, action) => {
   switch (action.type) {
     case TODOADD:
-      return [...state, action.payload];
+      return [
+        ...state,
+        {
+          id: faker.datatype.uuid(),
+          text: action.payload,
+          color: "green",
+          complete: false,
+        },
+      ];
 
     case TODOCOMPLETEALL:
       return state.map((item) => {

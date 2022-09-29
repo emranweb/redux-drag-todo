@@ -2,6 +2,7 @@
 
 import {
   TODOCLEARALL,
+  TODOADD,
   TODOCOLORSELECT,
   TODOCOMPLETEALL,
   TODODELETE,
@@ -10,7 +11,7 @@ import {
 
 export const todoAddAction = (action) => {
   return {
-    type: TODOTOGGLED,
+    type: TODOADD,
     payload: action.payload,
   };
 };

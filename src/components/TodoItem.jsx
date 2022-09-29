@@ -1,16 +1,30 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import cancleImage from "../images/cancel.png";
-import { todoToggledAction } from "../redux/todos/todoActions";
+import {
+  todoToggledAction,
+  todoColorSelectAction,
+  todoDeleteAction,
+} from "../redux/todos/todoActions";
 
 const TodoItem = ({ todo }) => {
   const { id, text, color, complete } = todo;
 
   const dispatch = useDispatch();
 
+  // handle todo complete and imcomplete
   const handleChange = () => {
     dispatch(todoToggledAction({ payload: id }));
   };
+  // handle color change
+  const handleColorChange = (color) => {
+    dispatch(todoColorSelectAction({ payload: { id, color } }));
+  };
+  //handle cancle task
+  const handleCancle = () => {
+    dispatch(todoDeleteAction({ payload: id }));
+  };
+
   return (
     <div className="flex justify-start items-center p-2 hover:bg-gray-100 hover:transition-all space-x-4 border-b border-gray-400/20 last:border-0">
       <div
@@ -42,24 +56,28 @@ const TodoItem = ({ todo }) => {
         className={`flex-shrink-0 h-4 w-4 rounded-full border-2 ml-auto cursor-pointer border-green-500 hover:bg-green-500 ${
           color === "green" ? "bg-green-500" : ""
         }`}
+        onClick={() => handleColorChange("green")}
       ></div>
 
       <div
         className={`flex-shrink-0 h-4 w-4 rounded-full border-2 ml-auto cursor-pointer border-yellow-500 hover:bg-yellow-500 ${
           color === "yellow" ? "bg-yellow-500" : ""
         }`}
+        onClick={() => handleColorChange("yellow")}
       ></div>
 
       <div
         className={`flex-shrink-0 h-4 w-4 rounded-full border-2 ml-auto cursor-pointer border-red-500 hover:bg-red-500 ${
           color === "red" ? "bg-red-500" : ""
         }`}
+        onClick={() => handleColorChange("red")}
       ></div>
 
       <img
         src={cancleImage}
         className="flex-shrink-0 w-4 h-4 ml-2 cursor-pointer"
         alt="Cancel"
+        onClick={handleCancle}
       />
     </div>
   );
