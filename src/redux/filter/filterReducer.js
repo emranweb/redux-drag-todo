@@ -1,7 +1,7 @@
 import { FILETERCOMPLETE, FILTERCOLOR } from "./filterActionTypes";
 
 const initialState = {
-  complete: "complte",
+  complete: "all",
   color: ["red", "green", "yellow"],
 };
 

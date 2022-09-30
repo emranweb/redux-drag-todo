@@ -8,7 +8,7 @@ import {
 } from "../redux/todos/todoActions";
 
 const TodoItem = ({ todo }) => {
-  const { id, text, color, complete } = todo;
+  // filter sector chang
 
   const dispatch = useDispatch();
 
@@ -24,6 +24,8 @@ const TodoItem = ({ todo }) => {
   const handleCancle = () => {
     dispatch(todoDeleteAction({ payload: id }));
   };
+
+  const { id, text, color, complete } = todo;
 
   return (
     <div className="flex justify-start items-center p-2 hover:bg-gray-100 hover:transition-all space-x-4 border-b border-gray-400/20 last:border-0">
