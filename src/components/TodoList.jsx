@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 const TodoList = () => {
   const todos = useSelector((state) => state.todo);
   const filterState = useSelector((state) => state.filter.complete);
+  const filterColor = useSelector((state) => state.filter.color);
 
   const filterTodos = () => {
     switch (filterState) {
@@ -16,11 +17,15 @@ const TodoList = () => {
         return todos;
     }
   };
-  const updatedTodos = filterTodos();
+  const FilterCompleteTodos = filterTodos();
+
+  const FilterColorTodos = FilterCompleteTodos.filter((item) =>
+    filterColor.length > 0 ? filterColor.includes(item.color) : item
+  );
 
   return (
     <div className="mt-2 text-gray-700 text-sm max-h-[300px] overflow-y-auto">
-      {updatedTodos.map((item) => (
+      {FilterColorTodos.map((item) => (
         <TodoItem key={item.id} todo={item} />
       ))}
     </div>

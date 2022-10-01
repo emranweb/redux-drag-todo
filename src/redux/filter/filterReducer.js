@@ -2,7 +2,7 @@ import { FILETERCOMPLETE, FILTERCOLOR } from "./filterActionTypes";
 
 const initialState = {
   complete: "all",
-  color: ["red", "green", "yellow"],
+  color: ["green"],
 };
 
 const filterReducer = (state = initialState, action) => {
@@ -14,22 +14,19 @@ const filterReducer = (state = initialState, action) => {
       };
 
     case FILTERCOLOR:
-      const { color, colorType } = action.payload;
-      switch (colorType) {
-        case "added":
-          return {
-            ...state,
-            color: [...state.color, color],
-          };
-
-        case "remove":
-          return {
-            ...state,
-            color: state.color.filter((item) => item !== color),
-          };
-        default:
-          return state;
+      const colorType = state.color.includes(action.payload);
+      if (colorType) {
+        return {
+          ...state,
+          color: state.color.filter((item) => item !== action.payload),
+        };
+      } else {
+        return {
+          ...state,
+          color: [...state.color, action.payload],
+        };
       }
+
     default:
       return state;
   }

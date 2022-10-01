@@ -1,17 +1,25 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { filterCompleteAction } from "../redux/filter/filterActions";
+import {
+  filterColorAction,
+  filterCompleteAction,
+} from "../redux/filter/filterActions";
 
 const Footer = () => {
   // toto list
   const todos = useSelector((state) => state.todo);
   const filterState = useSelector((state) => state.filter.complete);
   const itemLeft = todos.filter((item) => !item.complete).length;
+  const colorFilter = useSelector((state) => state.filter.color);
   const dispatch = useDispatch();
 
   //handle status change
   const handleStatus = (status) => {
     dispatch(filterCompleteAction({ payload: status }));
+  };
+
+  const handleColorToggle = (color) => {
+    dispatch(filterColorAction({ payload: color }));
   };
 
   return (
@@ -52,9 +60,26 @@ const Footer = () => {
         </li>
         <li></li>
         <li></li>
-        <li className="h-3 w-3 border-2 border-green-500 md:hover:bg-green-500 rounded-full cursor-pointer bg-green-500"></li>
-        <li className="h-3 w-3 border-2 border-red-500 md:hover:bg-red-500 rounded-full cursor-pointer"></li>
-        <li className="h-3 w-3 border-2 border-yellow-500 md:hover:bg-yellow-500 rounded-full cursor-pointer"></li>
+        <li
+          className={`h-3 w-3 border-2 border-green-500 md:hover:bg-green-500 rounded-full cursor-pointer ${
+            colorFilter.includes("green") ? "bg-green-500" : ""
+          }`}
+          onClick={() => handleColorToggle("green")}
+        ></li>
+
+        <li
+          className={`h-3 w-3 border-2 border-red-500 md:hover:bg-red-500 rounded-full cursor-pointer  ${
+            colorFilter.includes("red") ? "bg-red-500" : ""
+          }`}
+          onClick={() => handleColorToggle("red")}
+        ></li>
+
+        <li
+          className={`h-3 w-3 border-2 border-yellow-500 md:hover:bg-yellow-500 rounded-full cursor-pointer  ${
+            colorFilter.includes("yellow") ? "bg-yellow-500" : ""
+          }`}
+          onClick={() => handleColorToggle("yellow")}
+        ></li>
       </ul>
     </div>
   );
