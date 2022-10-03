@@ -5,6 +5,7 @@ import {
   TODOCOLORSELECT,
   TODOCOMPLETEALL,
   TODODELETE,
+  TODOLOADED,
   TODOTOGGLED,
 } from "./todoActionTypes";
 
@@ -25,6 +26,9 @@ const initialState = [
 
 const todoReducer = (state = initialState, action) => {
   switch (action.type) {
+    case TODOLOADED:
+      return action.payload;
+
     case TODOADD:
       return [
         ...state,

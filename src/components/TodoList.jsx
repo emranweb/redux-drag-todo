@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TodoItem from "./TodoItem";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchData } from "../redux/thunk/todoFetch";
 
 const TodoList = () => {
   const todos = useSelector((state) => state.todo);
   const filterState = useSelector((state) => state.filter.complete);
   const filterColor = useSelector((state) => state.filter.color);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchData);
+  }, [dispatch]);
 
   const filterTodos = () => {
     switch (filterState) {
@@ -25,7 +31,7 @@ const TodoList = () => {
 
   return (
     <div className="mt-2 text-gray-700 text-sm max-h-[300px] overflow-y-auto">
-      {FilterColorTodos.map((item) => (
+      {todos.map((item) => (
         <TodoItem key={item.id} todo={item} />
       ))}
     </div>

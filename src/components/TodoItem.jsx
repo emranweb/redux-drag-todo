@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import cancleImage from "../images/cancel.png";
 import {
@@ -25,7 +25,7 @@ const TodoItem = ({ todo }) => {
     dispatch(todoDeleteAction({ payload: id }));
   };
 
-  const { id, text, color, complete } = todo;
+  const { id, title, color, complete } = todo;
 
   return (
     <div className="flex justify-start items-center p-2 hover:bg-gray-100 hover:transition-all space-x-4 border-b border-gray-400/20 last:border-0">
@@ -51,7 +51,7 @@ const TodoItem = ({ todo }) => {
       </div>
 
       <div className={`select-none flex-1 ${complete && "line-through"}`}>
-        {text}
+        {title}
       </div>
 
       <div
