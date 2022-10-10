@@ -67,7 +67,7 @@ const todoReducer = (state = initialState, action) => {
         }
         return {
           ...item,
-          complete: !item.complete,
+          completed: !item.completed,
         };
       });
 

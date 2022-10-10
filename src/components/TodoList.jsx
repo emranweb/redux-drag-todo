@@ -30,7 +30,7 @@ const TodoList = () => {
   );
 
   return (
-    <div className="mt-2 text-gray-700 text-sm max-h-[300px] overflow-y-auto">
+    <div className="mt-2 text-gray-700 text-sm">
       {todos.map((item) => (
         <TodoItem key={item.id} todo={item} />
       ))}
