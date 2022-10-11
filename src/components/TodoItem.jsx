@@ -1,15 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import cancleImage from "../images/cancel.png";
-import { toggleTodo } from "../redux/thunk/todoFetch";
-import {
-  todoToggledAction,
-  todoColorSelectAction,
-  todoDeleteAction,
-} from "../redux/todos/todoActions";
+import { colorChange, deleteTodo, toggleTodo } from "../redux/thunk/todoFetch";
+import noteImage from "../images/notes.png";
 
 const TodoItem = ({ todo }) => {
   // filter sector chang
+  const { id, title, color, completed } = todo;
 
   const dispatch = useDispatch();
 
@@ -20,14 +17,12 @@ const TodoItem = ({ todo }) => {
   };
   // handle color change
   const handleColorChange = (color) => {
-    dispatch(todoColorSelectAction({ payload: { id, color } }));
+    dispatch(colorChange(id, color));
   };
   //handle cancle task
   const handleCancle = () => {
-    dispatch(todoDeleteAction({ payload: id }));
+    dispatch(deleteTodo(id));
   };
-
-  const { id, title, color, completed } = todo;
 
   return (
     <div className="flex justify-start items-center p-2 hover:bg-gray-100 hover:transition-all space-x-4 border-b border-gray-400/20 last:border-0">
@@ -52,8 +47,11 @@ const TodoItem = ({ todo }) => {
         </svg>
       </div>
 
-      <div className={`select-none flex-1 ${completed && "line-through"}`}>
+      <div className={`select-none flex flex-1 ${completed && "line-through"}`}>
         {title}
+        <div className="w-3 h-3 mt-[6px] mx-4">
+          <img src={noteImage} alt="note" />
+        </div>
       </div>
 
       <div

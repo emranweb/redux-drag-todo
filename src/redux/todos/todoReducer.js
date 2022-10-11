@@ -30,15 +30,7 @@ const todoReducer = (state = initialState, action) => {
       return action.payload;
 
     case TODOADD:
-      return [
-        ...state,
-        {
-          id: faker.datatype.uuid(),
-          text: action.payload,
-          color: "green",
-          complete: false,
-        },
-      ];
+      return [...state, action.payload];
 
     case TODOCOMPLETEALL:
       return state.map((item) => {

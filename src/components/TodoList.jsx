@@ -16,9 +16,9 @@ const TodoList = () => {
   const filterTodos = () => {
     switch (filterState) {
       case "complete":
-        return todos.filter((item) => item.complete === true);
+        return todos.filter((item) => item.completed === true);
       case "incomplete":
-        return todos.filter((item) => item.complete === false);
+        return todos.filter((item) => item.completed === false);
       default:
         return todos;
     }
@@ -31,7 +31,7 @@ const TodoList = () => {
 
   return (
     <div className="mt-2 text-gray-700 text-sm">
-      {todos.map((item) => (
+      {FilterColorTodos.map((item) => (
         <TodoItem key={item.id} todo={item} />
       ))}
     </div>

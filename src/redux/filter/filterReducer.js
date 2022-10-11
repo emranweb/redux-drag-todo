@@ -2,7 +2,7 @@ import { FILETERCOMPLETE, FILTERCOLOR } from "./filterActionTypes";
 
 const initialState = {
   complete: "all",
-  color: ["green"],
+  color: [],
 };
 
 const filterReducer = (state = initialState, action) => {

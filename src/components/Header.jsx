@@ -5,8 +5,8 @@ import { useDispatch } from "react-redux";
 import {
   todoClearCompleteAction,
   todoCompleteAllAction,
-  todoAddAction,
 } from "../redux/todos/todoActions";
+import { addTodo } from "../redux/thunk/todoFetch";
 
 const Header = () => {
   const [data, setData] = useState({ value: "" });
@@ -29,8 +29,7 @@ const Header = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("event");
-    dispatch(todoAddAction({ payload: data.value }));
+    dispatch(addTodo(data.value));
   };
 
   return (
