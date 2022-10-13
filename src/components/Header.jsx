@@ -7,6 +7,7 @@ import {
   todoCompleteAllAction,
 } from "../redux/todos/todoActions";
 import { addTodo } from "../redux/thunk/todoFetch";
+import { add } from "../redux/rtk-todo/todo";
 
 const Header = () => {
   const [data, setData] = useState({ value: "" });
@@ -29,7 +30,15 @@ const Header = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(addTodo(data.value));
+    dispatch(
+      add({
+        userId: 1,
+        id: 4,
+        title: "fugiat veniam minus",
+        completed: false,
+        color: "green",
+      })
+    );
   };
 
   return (

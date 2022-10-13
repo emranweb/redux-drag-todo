@@ -5,33 +5,34 @@ import { fetchData } from "../redux/thunk/todoFetch";
 
 const TodoList = () => {
   const todos = useSelector((state) => state.todo);
-  const filterState = useSelector((state) => state.filter.complete);
-  const filterColor = useSelector((state) => state.filter.color);
+  console.log(todos);
+  // const filterState = useSelector((state) => state.filter.complete);
+  // const filterColor = useSelector((state) => state.filter.color);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchData);
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchData);
+  // }, [dispatch]);
 
-  const filterTodos = () => {
-    switch (filterState) {
-      case "complete":
-        return todos.filter((item) => item.completed === true);
-      case "incomplete":
-        return todos.filter((item) => item.completed === false);
-      default:
-        return todos;
-    }
-  };
-  const FilterCompleteTodos = filterTodos();
+  // const filterTodos = () => {
+  //   switch (filterState) {
+  //     case "complete":
+  //       return todos.filter((item) => item.completed === true);
+  //     case "incomplete":
+  //       return todos.filter((item) => item.completed === false);
+  //     default:
+  //       return todos;
+  //   }
+  // };
+  // const FilterCompleteTodos = filterTodos();
 
-  const FilterColorTodos = FilterCompleteTodos.filter((item) =>
-    filterColor.length > 0 ? filterColor.includes(item.color) : item
-  );
+  // const FilterColorTodos = FilterCompleteTodos.filter((item) =>
+  //   filterColor.length > 0 ? filterColor.includes(item.color) : item
+  // );
 
   return (
     <div className="mt-2 text-gray-700 text-sm">
-      {FilterColorTodos.map((item) => (
+      {todos.map((item) => (
         <TodoItem key={item.id} todo={item} />
       ))}
     </div>
