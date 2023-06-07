@@ -4,39 +4,41 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../redux/thunk/todoFetch";
 
 const TodoList = () => {
-  const todos = useSelector((state) => state.todo);
-  console.log(todos);
-  // const filterState = useSelector((state) => state.filter.complete);
-  // const filterColor = useSelector((state) => state.filter.color);
-  const dispatch = useDispatch();
+    const todos = useSelector((state) => state.todos);
+    console.log(todos);
+    const filterState = useSelector((state) => state.filter.complete);
+    const filterColor = useSelector((state) => state.filter.color);
+    const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   dispatch(fetchData);
-  // }, [dispatch]);
+    console.log(filterState); // i got this value undefined
 
-  // const filterTodos = () => {
-  //   switch (filterState) {
-  //     case "complete":
-  //       return todos.filter((item) => item.completed === true);
-  //     case "incomplete":
-  //       return todos.filter((item) => item.completed === false);
-  //     default:
-  //       return todos;
-  //   }
-  // };
-  // const FilterCompleteTodos = filterTodos();
+    useEffect(() => {
+        dispatch(fetchData);
+    }, [dispatch]);
 
-  // const FilterColorTodos = FilterCompleteTodos.filter((item) =>
-  //   filterColor.length > 0 ? filterColor.includes(item.color) : item
-  // );
+    const filterTodos = () => {
+        switch (filterState) {
+            case "complete":
+                return todos.filter((item) => item.completed === true);
+            case "incomplete":
+                return todos.filter((item) => item.completed === false);
+            default:
+                return todos;
+        }
+    };
+    const FilterCompleteTodos = filterTodos();
 
-  return (
-    <div className="mt-2 text-gray-700 text-sm">
-      {todos.map((item) => (
-        <TodoItem key={item.id} todo={item} />
-      ))}
-    </div>
-  );
+    const FilterColorTodos = FilterCompleteTodos.filter((item) =>
+        filterColor.length > 0 ? filterColor.includes(item.color) : item
+    );
+
+    return (
+        <div className="mt-2 text-gray-700 text-sm">
+            {todos.map((item) => (
+                <TodoItem key={item.id} todo={item} />
+            ))}
+        </div>
+    );
 };
 
 export default TodoList;

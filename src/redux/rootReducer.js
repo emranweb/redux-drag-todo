@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
-import todoReducer from "./todos/todoReducer";
+import todosReducer from "./todos/todoReducer";
 import filterReducer from "./filter/filterReducer";
 
 const rootReducer = combineReducers({
-  todo: todoReducer,
-  filter: filterReducer,
+    todos: todosReducer,
+    filter: filterReducer,
 });
 
 export default rootReducer;
