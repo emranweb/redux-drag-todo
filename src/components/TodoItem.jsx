@@ -3,8 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import cancleImage from "../images/cancel.png";
 import { colorChange, deleteTodo, toggleTodo } from "../redux/thunk/todoFetch";
 import noteImage from "../images/notes.png";
+import { todoToggle } from "../redux/rtk-todo/todo";
 
 const TodoItem = ({ todo }) => {
+    // throw new error
+
     // filter sector chang
     const { id, title, color, completed } = todo;
 
@@ -12,7 +15,7 @@ const TodoItem = ({ todo }) => {
 
     // handle todo completed and imcomplete
     const handleChange = (id, status) => {
-        dispatch(toggleTodo(id, status));
+        dispatch(todoToggle(id));
     };
     // handle color change
     const handleColorChange = (color) => {

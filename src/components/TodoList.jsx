@@ -2,18 +2,16 @@ import React, { useEffect } from "react";
 import TodoItem from "./TodoItem";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../redux/thunk/todoFetch";
+import { fetchPost } from "../redux/rtk-todo/rtk-fetch";
 
 const TodoList = () => {
     const todos = useSelector((state) => state.todos);
-    console.log(todos);
     const filterState = useSelector((state) => state.filter.complete);
     const filterColor = useSelector((state) => state.filter.color);
     const dispatch = useDispatch();
 
-    console.log(filterState); // i got this value undefined
-
     useEffect(() => {
-        dispatch(fetchData);
+        dispatch(fetchPost);
     }, [dispatch]);
 
     const filterTodos = () => {

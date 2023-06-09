@@ -4,8 +4,8 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
-// import store from "./redux/rtk-todo/rtk-store";
-import store from "./redux/store.js";
+import store from "./redux/rtk-todo/rtk-store";
+//import store from "./redux/store.js";
 const container = document.getElementById("root");
 const root = createRoot(container);
 

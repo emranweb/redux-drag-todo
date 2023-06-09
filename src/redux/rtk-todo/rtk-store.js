@@ -1,10 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import postsReducer from "./rtk-fetch";
 import posttwoReducer from "./trk-fetchTwo";
-import todoReducer from "./todo.js";
+import todosReducer from "./todo.js";
+import filterReducer from "./filter.js";
+
 const store = configureStore({
     reducer: {
-        todo: todoReducer,
+        todos: todosReducer,
+        filter: filterReducer,
         posts: postsReducer,
         postTwo: posttwoReducer,
     },

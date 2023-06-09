@@ -26,16 +26,27 @@ const todos = [
     },
 ];
 
-const todoReducerSlice = createSlice({
+const todosReducerSlice = createSlice({
     name: "todo",
     initialState: todos,
     reducers: {
         add: (state, action) => {
             return [...state, action.payload];
         },
+        todoToggle: (state, action) => {
+            return state.map((item) => {
+                if (item.id !== action.payload) {
+                    return item;
+                }
+                return {
+                    ...item,
+                    completed: !item.completed,
+                };
+            });
+        },
     },
 });
 
-export const { add } = todoReducerSlice.actions;
+export const { add, todoToggle } = todosReducerSlice.actions;
 
-export default todoReducerSlice.reducer;
+export default todosReducerSlice.reducer;
