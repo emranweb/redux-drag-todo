@@ -1,4 +1,4 @@
-import { FILETERCOMPLETE, FILTERCOLOR } from './filterActionTypes';
+import { FILETERCOMPLETE } from './filterActionTypes';
 
 const initialState = {
   complete: 'all',
