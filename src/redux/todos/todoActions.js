@@ -7,23 +7,23 @@ import {
   TODOCOMPLETEALL,
   TODODELETE,
   TODOTOGGLED,
-} from "./todoActionTypes";
+} from './todoActionTypes';
 
-export const todoAddAction = (action) => {
+export const todoAddAction = action => {
   return {
     type: TODOADD,
     payload: action.payload,
   };
 };
 
-export const todoDeleteAction = (action) => {
+export const todoDeleteAction = action => {
   return {
     type: TODODELETE,
     payload: action.payload,
   };
 };
 
-export const todoColorSelectAction = (action) => {
+export const todoColorSelectAction = action => {
   return {
     type: TODOCOLORSELECT,
     payload: action.payload,
@@ -42,7 +42,7 @@ export const todoClearCompleteAction = () => {
   };
 };
 
-export const todoToggledAction = (action) => {
+export const todoToggledAction = action => {
   return {
     type: TODOTOGGLED,
     payload: action.payload,
