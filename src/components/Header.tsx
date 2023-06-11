@@ -1,47 +1,40 @@
 import React, { useState } from 'react';
 import noteImage from '../images/notes.png';
 import doubleTickImage from '../images/double-tick.png';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  todoClearCompleteAction,
-  todoCompleteAllAction,
-} from '../redux/todos/todoActions';
-// import { addTodo } from '../redux/thunk/todoFetch';
-import { add } from '../redux/rtk-todo/todo';
 
 const Header = () => {
-  const todos = useSelector(state => state);
-  console.log(todos);
-
   const [data, setData] = useState({ value: '' });
-
-  const dispatch = useDispatch();
-
-  const handleCompleteAll = () => {
-    dispatch(todoCompleteAllAction());
+  const handleCompleteAll = (): void => {
+    //   dispatch(todoCompleteAllAction());
+    console.log('handleComplete');
   };
 
   //handle clear all
-  const handleClearAll = () => {
-    dispatch(todoClearCompleteAction());
+  const handleClearAll = (): void => {
+    //   dispatch(todoClearCompleteAction());
+    console.log('color filter');
   };
 
   //hanlde input change
-  const handleInputChange = event => {
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     setData({ value: event.target.value });
+    console.log(data);
   };
 
-  const handleSubmit = event => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    dispatch(
-      add({
-        userId: 1,
-        id: 4,
-        title: 'fugiat veniam minus',
-        completed: false,
-        color: 'green',
-      })
-    );
+    // dispatch(
+    //   add({
+    //     userId: 1,
+    //     id: 4,
+    //     title: 'fugiat veniam minus',
+    //     completed: false,
+    //     color: 'green',
+    //   })
+    // );
+    console.log('hi');
   };
 
   return (
