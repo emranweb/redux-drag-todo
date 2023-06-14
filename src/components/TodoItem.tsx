@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 // import { useDispatch } from 'react-redux';
 import cancleImage from '../images/cancel.png';
+import { useSortable } from '@dnd-kit/sortable';
 // import { colorChange, deleteTodo } from '../redux/thunk/todoFetch';
 import noteImage from '../images/notes.png';
 //import { todoToggle } from '../redux/rtk-todo/todo';
@@ -11,14 +12,17 @@ import {
   updateTodo,
 } from '../features/todos/todoSlice';
 import { useAppDispatch } from '../hooks/app';
+import { useDraggable } from '@dnd-kit/core';
 
 interface TodoItemProps {
   todo: Todo;
 }
 
 const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
-  const [color] = useState<string>('green');
   const { id, title, completed } = todo;
+  const { setNodeRef, listeners } = useDraggable({
+    id: id,
+  });
 
   const dispatch = useAppDispatch();
 
@@ -26,11 +30,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   const handleChange = (id: number) => {
     dispatch(todoMarkCompleted(id));
   };
-  // handle color change
-  const handleColorChange = () => {
-    // dispatch(colorChange(id, color));
-    console.log('color change');
-  };
+
   //handle cancle task
   const handleRemove = (id: number) => {
     dispatch(removeFromTodos(id));
@@ -42,7 +42,11 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   };
 
   return (
-    <div className="flex justify-start items-center p-2 hover:bg-gray-100 hover:transition-all space-x-4 border-b border-gray-400/20 last:border-0">
+    <div
+      ref={setNodeRef}
+      {...listeners}
+      className="flex justify-start items-center p-2 hover:bg-gray-100 hover:transition-all space-x-4 border-b border-gray-400/20 last:border-0"
+    >
       <div
         className={`rounded-full bg-white border-2  w-5 h-5 flex flex-shrink-0 justify-center items-center mr-2 ${
           completed ? 'border-green-500' : 'border-gray-400'
