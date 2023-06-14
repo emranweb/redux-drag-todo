@@ -1,13 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import noteImage from '../images/notes.png';
 import doubleTickImage from '../images/double-tick.png';
+import { useAppDispatch, useAppSelector } from '../hooks/app';
+import { addTodo, updateTodo } from '../features/todos/todoSlice';
+import { v4 as uuidv4 } from 'uuid';
 
 const Header = () => {
-  const [data, setData] = useState({ value: '' });
+  const todos = useAppSelector(state => state.todos);
+
+  // find todo that enable edit
+  const editTodo = todos.find(item => item.edit === true);
+  console.log(editTodo);
+  const [data, setData] = useState({ value: editTodo ? editTodo.title : '' });
+  const dispatch = useAppDispatch();
   const handleCompleteAll = (): void => {
     //   dispatch(todoCompleteAllAction());
     console.log('handleComplete');
   };
+
+  useEffect(() => {
+    console.log('hi');
+    if (editTodo) {
+      setData({ value: editTodo.title });
+    }
+  }, [editTodo]);
 
   //handle clear all
   const handleClearAll = (): void => {
@@ -20,27 +36,40 @@ const Header = () => {
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
     setData({ value: event.target.value });
-    console.log(data);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    // dispatch(
-    //   add({
-    //     userId: 1,
-    //     id: 4,
-    //     title: 'fugiat veniam minus',
-    //     completed: false,
-    //     color: 'green',
-    //   })
-    // );
-    console.log('hi');
+    if (!data.value) return;
+    if (editTodo) {
+      dispatch(
+        updateTodo({
+          id: editTodo.id,
+          title: data.value,
+        })
+      );
+    } else {
+      dispatch(
+        addTodo({
+          id: uuidv4(),
+          edit: false,
+          title: data.value,
+          completed: false,
+          color: 'green',
+        })
+      );
+    }
+
+    // clear the input field
+    setData({ value: '' });
   };
 
   return (
     <div>
       <form
-        className="flex items-center bg-gray-100 px-4 py-4 rounded-md"
+        className={`flex items-center bg-gray-100 px-4 py-4 rounded-md ${
+          data.value === '' ? 'border border-red-400' : 'border border-gray-400'
+        }`}
         onSubmit={handleSubmit}
       >
         <img src={noteImage} className="w-6 h-6" alt="Add todo" />

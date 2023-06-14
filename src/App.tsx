@@ -8,7 +8,7 @@ import React from 'react';
 // import Footer from './components/Footer';
 import Header from './components/Header';
 import Navbar from './components/Navbar';
-// import TodoList from './components/TodoList';
+import TodoList from './components/TodoList';
 // import { fetchPost } from './redux/rtk-todo/rtk-fetch';
 // import { fetchPostTwo } from './redux/rtk-todo/trk-fetchTwo';
 
@@ -40,7 +40,7 @@ function App() {
         <div className="w-full max-w-3xl shadow-lg rounded-lg p-6 bg-white">
           <Header />
           <hr className="mt-4" />
-          {/* <TodoList /> */}
+          <TodoList />
           <hr className="mt-4" />
           {/* <Footer /> */}
         </div>
