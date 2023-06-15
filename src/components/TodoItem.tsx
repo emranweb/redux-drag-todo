@@ -1,18 +1,18 @@
 import React from 'react';
 // import { useDispatch } from 'react-redux';
 import cancleImage from '../images/cancel.png';
-import { useSortable } from '@dnd-kit/sortable';
+
 // import { colorChange, deleteTodo } from '../redux/thunk/todoFetch';
 import noteImage from '../images/notes.png';
 //import { todoToggle } from '../redux/rtk-todo/todo';
-import { Todo } from '../types/index';
+import { ItemTypes, Todo } from '../types/index';
 import {
   removeFromTodos,
   todoMarkCompleted,
   updateTodo,
 } from '../features/todos/todoSlice';
 import { useAppDispatch } from '../hooks/app';
-import { useDraggable } from '@dnd-kit/core';
+import { useDrag } from 'react-dnd';
 
 interface TodoItemProps {
   todo: Todo;
@@ -20,9 +20,13 @@ interface TodoItemProps {
 
 const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   const { id, title, completed } = todo;
-  const { setNodeRef, listeners } = useDraggable({
-    id: id,
-  });
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: ItemTypes.TODO,
+    item: { id },
+    collect: monitor => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }));
 
   const dispatch = useAppDispatch();
 
@@ -43,8 +47,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
 
   return (
     <div
-      ref={setNodeRef}
-      {...listeners}
+      ref={drag}
       className="flex justify-start items-center p-2 hover:bg-gray-100 hover:transition-all space-x-4 border-b border-gray-400/20 last:border-0"
     >
       <div

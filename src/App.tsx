@@ -4,29 +4,31 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import Navbar from './components/Navbar';
 import TodoList from './components/TodoList';
-import { DndContext } from '@dnd-kit/core';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import Completed from './components/Completed';
 
 function App() {
   return (
-    <div className="App">
-      <DndContext>
+    <DndProvider backend={HTML5Backend}>
+      <div className="App">
         <div className="grid place-items-center bg-blue-100 h-screen px-6 font-sans">
           <Navbar />
 
           <div className="w-full max-w-3xl shadow-lg rounded-lg p-6 bg-white">
             <Header />
             <hr className="mt-4" />
-            <TodoList />
+            <Completed>
+              <TodoList />
+            </Completed>
             <hr className="mt-4" />
             <Footer />
           </div>
 
-          <div className="w-full max-w-3xl shadow-lg rounded-lg p-6 bg-white">
-            <TodoList />
-          </div>
+          <div className="w-full max-w-3xl shadow-lg rounded-lg p-6 bg-white"></div>
         </div>
-      </DndContext>
-    </div>
+      </div>
+    </DndProvider>
   );
 }
 

@@ -10,3 +10,7 @@ export interface Todo {
 export interface Todos {
   todos: Todo[];
 }
+
+export const ItemTypes = {
+  TODO: 'todo',
+};
