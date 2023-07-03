@@ -25,7 +25,15 @@ const Board = () => {
         ref={dropNode}
         {...listeners}
         className="drop-container w-32 h-32 bg-red-300"
-      ></div>
+      >
+        {isDroped ? (
+          <button ref={dragNode} type="button" className="p-2 bg-orange-400">
+            Drag
+          </button>
+        ) : (
+          'drop container'
+        )}
+      </div>
     </DndContext>
   );
 };
