@@ -1,39 +1,23 @@
 import { DndContext, useDraggable, useDroppable } from '@dnd-kit/core';
 import React, { useState } from 'react';
+import Draggable from './Dragable';
+import Droppable from './Dropable';
 
 const Board = () => {
-  const [isDroped, setIsDroped] = useState(false);
-  const { isOver, setNodeRef: dropNode } = useDroppable({
-    id: 'dropable',
-  });
+  const [isDropped, setIsDropped] = useState(false);
 
-  const handleDrapEvent = (event: any) => {
-    if (event.over && event.over.id === 'dropable') {
-      setIsDroped(true);
+  function handleDragEnd(event: any) {
+    if (event.over && event.over.id === 'droppable') {
+      setIsDropped(true);
     }
-  };
-  const { setNodeRef: dragNode, listeners } = useDraggable({
-    id: 'dragable',
-  });
-  return (
-    <DndContext onDragEnd={handleDrapEvent}>
-      <button ref={dragNode} type="button" className="p-2 bg-orange-400">
-        Drag
-      </button>
+  }
 
-      <div
-        ref={dropNode}
-        {...listeners}
-        className="drop-container w-32 h-32 bg-red-300"
-      >
-        {isDroped ? (
-          <button ref={dragNode} type="button" className="p-2 bg-orange-400">
-            Drag
-          </button>
-        ) : (
-          'drop container'
-        )}
-      </div>
+  const draggableMarkup = <Draggable>Drag me</Draggable>;
+
+  return (
+    <DndContext onDragEnd={handleDragEnd}>
+      {!isDropped ? draggableMarkup : null}
+      <Droppable> {isDropped ? draggableMarkup : 'Drop here'}</Droppable>
     </DndContext>
   );
 };
