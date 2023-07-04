@@ -1,28 +1,32 @@
-import {
-  DndContext,
-  DragEndEvent,
-  useDraggable,
-  useDroppable,
-} from '@dnd-kit/core';
+import { DndContext, DragEndEvent } from '@dnd-kit/core';
 import React, { useState } from 'react';
 import Draggable from './Dragable';
-import Droppable from './Dropable';
+import MultipleDroppables from './MultipleDropable';
 
 const Board = () => {
-  const [isDropped, setIsDropped] = useState(false);
+  const [isDropped, setIsDropped] = useState({
+    status: false,
+    id: '',
+  });
 
   function handleDragEnd(event: DragEndEvent): void {
-    if (event.over && event.over.id === 'droppable') {
-      setIsDropped(true);
+    if (
+      (event.over && event.over.id === 'droppable-backlog') ||
+      (event.over && event.over.id === 'droppable-in-progress') ||
+      (event.over && event.over.id === 'droppable-done')
+    ) {
+      setIsDropped({ status: true, id: event.over.id });
     }
   }
 
-  const draggableMarkup = <Draggable>Drag me</Draggable>;
+  const draggableMarkup = <Draggable>Button</Draggable>;
 
   return (
     <DndContext onDragEnd={handleDragEnd}>
-      {!isDropped ? draggableMarkup : null}
-      <Droppable> {isDropped ? draggableMarkup : 'Drop here'}</Droppable>
+      {!isDropped.status ? draggableMarkup : null}
+      <MultipleDroppables id={isDropped.id}>
+        {isDropped.status ? draggableMarkup : null}
+      </MultipleDroppables>
     </DndContext>
   );
 };
