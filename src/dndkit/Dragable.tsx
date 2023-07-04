@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDraggable } from '@dnd-kit/core';
 
-function Draggable(props: any) {
+function Draggable(props: { children: React.ReactNode }) {
   const { listeners, setNodeRef, transform } = useDraggable({
     id: 'draggable',
   });
