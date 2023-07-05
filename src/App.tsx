@@ -1,36 +1,43 @@
 import React from 'react';
 
-// import Footer from './components/Footer';
-// import Header from './components/Header';
-// import Navbar from './components/Navbar';
-// import TodoList from './components/TodoList';
-// import { DndProvider } from 'react-dnd';
-// import { HTML5Backend } from 'react-dnd-html5-backend';
-// import Completed from './components/Completed';
-import Board from './dndkit/Board';
+import Header from './components/Header';
+import Navbar from './components/Navbar';
+import TodoList from './components/TodoList';
+import CompletedTodo from './components/CompletedTodo';
+import { DndContext, DragEndEvent } from '@dnd-kit/core';
+import { useAppDispatch, useAppSelector } from './hooks/app';
+import { todoMarkCompleted } from './features/todos/todoSlice';
 
 function App() {
+  const allTodos = useAppSelector(state => state.todos);
+  const inCompletedTodos = allTodos.filter(todo => todo.completed === false);
+  const completedTodos = allTodos.filter(todo => todo.completed === true);
+
+  const dispatach = useAppDispatch();
+
+  const handleDragEnd = (event: DragEndEvent): void => {
+    if (event.over && event.over.id === 'completed') {
+      dispatach(todoMarkCompleted(event.active.id));
+    }
+  };
+
   return (
-    // <DndProvider backend={HTML5Backend}>
-    //   <div className="App">
-    //     <div className="grid place-items-center bg-blue-100 h-screen px-6 font-sans">
-    //       <Navbar />
-
-    //       <div className="w-full max-w-3xl shadow-lg rounded-lg p-6 bg-white">
-    //         <Header />
-    //         <hr className="mt-4" />
-    //         <Completed>
-    //           <TodoList />
-    //         </Completed>
-    //         <hr className="mt-4" />
-    //         <Footer />
-    //       </div>
-
-    //       <div className="w-full max-w-3xl shadow-lg rounded-lg p-6 bg-white"></div>
-    //     </div>
-    //   </div>
-    // </DndProvider>
-    <Board />
+    <div className="App">
+      <div className="grid place-items-center bg-blue-100  px-6 font-sans">
+        <Navbar />
+        <DndContext onDragEnd={handleDragEnd}>
+          <div className="w-full max-w-3xl shadow-lg rounded-lg p-6 bg-white mt-40">
+            <Header />
+            <hr className="mt-4" />
+            <TodoList todos={inCompletedTodos} />
+            <hr className="mt-4" />
+          </div>
+          <CompletedTodo>
+            <TodoList todos={completedTodos.length > 0 ? completedTodos : []} />
+          </CompletedTodo>
+        </DndContext>
+      </div>
+    </div>
   );
 }
 

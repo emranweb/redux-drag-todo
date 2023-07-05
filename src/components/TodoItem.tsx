@@ -5,14 +5,14 @@ import cancleImage from '../images/cancel.png';
 // import { colorChange, deleteTodo } from '../redux/thunk/todoFetch';
 import noteImage from '../images/notes.png';
 //import { todoToggle } from '../redux/rtk-todo/todo';
-import { ItemTypes, Todo } from '../types/index';
+import { Todo } from '../types/index';
 import {
   removeFromTodos,
   todoMarkCompleted,
   updateTodo,
 } from '../features/todos/todoSlice';
 import { useAppDispatch } from '../hooks/app';
-import { useDrag } from 'react-dnd';
+import { useDraggable } from '@dnd-kit/core';
 
 interface TodoItemProps {
   todo: Todo;
@@ -20,13 +20,9 @@ interface TodoItemProps {
 
 const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   const { id, title, completed } = todo;
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: ItemTypes.TODO,
-    item: { id },
-    collect: monitor => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  }));
+  const { setNodeRef, attributes, listeners, transform } = useDraggable({
+    id: id,
+  });
 
   const dispatch = useAppDispatch();
 
@@ -45,9 +41,16 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
     console.log('hi');
   };
 
+  const style = transform
+    ? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` }
+    : undefined;
+
   return (
     <div
-      ref={drag}
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
+      style={style}
       className="flex justify-start items-center p-2 hover:bg-gray-100 hover:transition-all space-x-4 border-b border-gray-400/20 last:border-0"
     >
       <div
