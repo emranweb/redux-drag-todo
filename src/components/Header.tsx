@@ -86,7 +86,7 @@ const Header = () => {
         ></button>
       </form>
 
-      <ul className="flex justify-between my-4 text-xs text-gray-500">
+      {/* <ul className="flex justify-between my-4 text-xs text-gray-500">
         <li className="flex space-x-1 cursor-pointer">
           <img className="w-4 h-4" src={doubleTickImage} alt="Complete" />
           <span onClick={handleCompleteAll}>Complete All Tasks</span>
@@ -94,7 +94,7 @@ const Header = () => {
         <li className="cursor-pointer" onClick={handleClearAll}>
           Clear completed
         </li>
-      </ul>
+      </ul> */}
     </div>
   );
 };

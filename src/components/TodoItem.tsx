@@ -13,14 +13,14 @@ import {
 } from '../features/todos/todoSlice';
 import { useAppDispatch } from '../hooks/app';
 import { useDraggable } from '@dnd-kit/core';
-
+import { useSortable } from '@dnd-kit/sortable';
 interface TodoItemProps {
   todo: Todo;
 }
 
 const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   const { id, title, completed } = todo;
-  const { setNodeRef, attributes, listeners, transform } = useDraggable({
+  const { setNodeRef, attributes, listeners, transform } = useSortable({
     id: id,
   });
 

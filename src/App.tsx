@@ -6,7 +6,17 @@ import TodoList from './components/TodoList';
 import CompletedTodo from './components/CompletedTodo';
 import { DndContext, DragEndEvent } from '@dnd-kit/core';
 import { useAppDispatch, useAppSelector } from './hooks/app';
-import { todoMarkCompleted } from './features/todos/todoSlice';
+import {
+  todoMarkCompleted,
+  todoMarkInProgess,
+} from './features/todos/todoSlice';
+import InProgressTodo from './components/InProgressTodo';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 
 function App() {
   const allTodos = useAppSelector(state => state.todos);
@@ -19,6 +29,9 @@ function App() {
     if (event.over && event.over.id === 'completed') {
       dispatach(todoMarkCompleted(event.active.id));
     }
+    if (event.over && event.over.id === 'inprogress') {
+      dispatach(todoMarkInProgess(event.active.id));
+    }
   };
 
   return (
@@ -28,12 +41,19 @@ function App() {
         <DndContext onDragEnd={handleDragEnd}>
           <div className="w-full max-w-3xl shadow-lg rounded-lg p-6 bg-white mt-40">
             <Header />
-            <hr className="mt-4" />
-            <TodoList todos={inCompletedTodos} />
-            <hr className="mt-4" />
           </div>
+          <InProgressTodo>
+            <TodoList todos={inCompletedTodos} />
+          </InProgressTodo>
           <CompletedTodo>
-            <TodoList todos={completedTodos.length > 0 ? completedTodos : []} />
+            <SortableContext
+              items={completedTodos}
+              strategy={verticalListSortingStrategy}
+            >
+              <TodoList
+                todos={completedTodos.length > 0 ? completedTodos : []}
+              />
+            </SortableContext>
           </CompletedTodo>
         </DndContext>
       </div>

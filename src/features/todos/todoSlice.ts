@@ -27,6 +27,16 @@ const todosSlice = createSlice({
       localStorage.setItem('todos', JSON.stringify(data));
       return data;
     },
+    todoMarkInProgess: (state, action) => {
+      const data: TodosArray = state.map(todo => {
+        if (todo.id === action.payload) {
+          return { ...todo, completed: false };
+        }
+        return todo;
+      });
+      localStorage.setItem('todos', JSON.stringify(data));
+      return data;
+    },
     updateTodo: (state, action) => {
       const { title } = action.payload;
       if (title) {
@@ -57,7 +67,12 @@ const todosSlice = createSlice({
   },
 });
 
-export const { addTodo, removeFromTodos, todoMarkCompleted, updateTodo } =
-  todosSlice.actions;
+export const {
+  addTodo,
+  removeFromTodos,
+  todoMarkCompleted,
+  todoMarkInProgess,
+  updateTodo,
+} = todosSlice.actions;
 
 export default todosSlice.reducer;
