@@ -12,17 +12,18 @@ import {
   updateTodo,
 } from '../features/todos/todoSlice';
 import { useAppDispatch } from '../hooks/app';
-import { useDraggable } from '@dnd-kit/core';
 import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 interface TodoItemProps {
   todo: Todo;
 }
 
 const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   const { id, title, completed } = todo;
-  const { setNodeRef, attributes, listeners, transform } = useSortable({
-    id: id,
-  });
+  const { setNodeRef, attributes, listeners, transform, transition } =
+    useSortable({
+      id: id,
+    });
 
   const dispatch = useAppDispatch();
 
@@ -41,9 +42,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
     console.log('hi');
   };
 
-  const style = transform
-    ? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` }
-    : undefined;
+  const style = { transform: CSS.Transform.toString(transform), transition };
 
   return (
     <div

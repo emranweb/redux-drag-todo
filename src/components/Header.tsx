@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import noteImage from '../images/notes.png';
-import doubleTickImage from '../images/double-tick.png';
 import { useAppDispatch, useAppSelector } from '../hooks/app';
 import { addTodo, updateTodo } from '../features/todos/todoSlice';
 import { v4 as uuidv4 } from 'uuid';
@@ -10,26 +9,14 @@ const Header = () => {
 
   // find todo that enable edit
   const editTodo = todos.find(item => item.edit === true);
-  console.log(editTodo);
   const [data, setData] = useState({ value: editTodo ? editTodo.title : '' });
   const dispatch = useAppDispatch();
-  const handleCompleteAll = (): void => {
-    //   dispatch(todoCompleteAllAction());
-    console.log('handleComplete');
-  };
 
   useEffect(() => {
-    console.log('hi');
     if (editTodo) {
       setData({ value: editTodo.title });
     }
   }, [editTodo]);
-
-  //handle clear all
-  const handleClearAll = (): void => {
-    //   dispatch(todoClearCompleteAction());
-    console.log('color filter');
-  };
 
   //hanlde input change
   const handleInputChange = (
@@ -55,7 +42,6 @@ const Header = () => {
           edit: false,
           title: data.value,
           completed: false,
-          color: 'green',
         })
       );
     }
