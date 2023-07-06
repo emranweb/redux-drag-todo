@@ -64,6 +64,11 @@ const todosSlice = createSlice({
       localStorage.setItem('todos', JSON.stringify(data));
       return data;
     },
+    changeIndex: (state, action) => {
+      const newTodos = action.payload;
+      localStorage.setItem('todos', JSON.stringify(newTodos));
+      return newTodos;
+    },
   },
 });
 
@@ -73,6 +78,7 @@ export const {
   todoMarkCompleted,
   todoMarkInProgess,
   updateTodo,
+  changeIndex,
 } = todosSlice.actions;
 
 export default todosSlice.reducer;
