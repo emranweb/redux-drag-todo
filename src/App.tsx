@@ -27,33 +27,25 @@ function App() {
   const dispatach = useAppDispatch();
 
   const handleDragEnd = (event: DragEndEvent): void => {
+    console.log(event);
     const { active, over } = event;
-    if (event.over && event.over.id === 'completed') {
-      dispatach(todoMarkCompleted(event.active.id));
-    }
-    if (event.over && event.over.id === 'inprogress') {
-      dispatach(todoMarkInProgess(event.active.id));
-      console.log('hi');
-      if (active.id !== over?.id) {
-        const oldIndex = inCompletedTodos.findIndex(
-          todo => todo.id === active.id
-        );
-        const newIndex = inCompletedTodos.findIndex(
-          todo => todo.id === over?.id
-        );
-        const newTodos = arrayMove(inCompletedTodos, oldIndex, newIndex);
-        dispatach(changeIndex(newTodos));
-        console.log(newTodos);
-      }
+    if (active.id !== over?.id) {
+      const oldIndex = inCompletedTodos.findIndex(
+        todo => todo.id === active.id
+      );
+      const newIndex = inCompletedTodos.findIndex(todo => todo.id === over?.id);
+      const newTodos = arrayMove(inCompletedTodos, oldIndex, newIndex);
+      dispatach(changeIndex(newTodos));
+      console.log(newTodos);
     }
   };
   const handleDragOver = (event: DragOverEvent): void => {
-    const overId = event.over?.id;
-    if (!overId) return;
-    console.log(event);
-    const activeContainer = event.active.data.current?.sortable.containerId;
-    const overContainer = event.over?.data.current?.sortable.containerId;
-    if (!overContainer) return;
+    // const overId = event.over?.id;
+    // if (!overId) return;
+    // const activeContainer = event.active.data.current?.sortable.containerId;
+    // const overContainer = event.over?.data.current?.sortable.containerId;
+    // if (!overContainer) return;
+    console.log('evnet Over');
   };
 
   return (
@@ -66,6 +58,7 @@ function App() {
           </div>
           <InProgressTodo>
             <SortableContext
+              id="inprogress-sortable"
               items={inCompletedTodos}
               strategy={verticalListSortingStrategy}
             >
@@ -74,6 +67,7 @@ function App() {
           </InProgressTodo>
           <CompletedTodo>
             <SortableContext
+              id="completed-sortable"
               items={completedTodos}
               strategy={verticalListSortingStrategy}
             >
