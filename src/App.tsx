@@ -40,12 +40,20 @@ function App() {
     }
   };
   const handleDragOver = (event: DragOverEvent): void => {
-    // const overId = event.over?.id;
-    // if (!overId) return;
-    // const activeContainer = event.active.data.current?.sortable.containerId;
-    // const overContainer = event.over?.data.current?.sortable.containerId;
-    // if (!overContainer) return;
-    console.log('evnet Over');
+    const overId = event.over?.id;
+    if (!overId) return;
+    const activeContainer = event.active.data.current?.sortable.containerId;
+    const overContainer = event.over?.data.current?.sortable.containerId;
+    if (!overContainer) return;
+    if (activeContainer !== overContainer) {
+      console.log(activeContainer);
+      console.log(overContainer);
+      if (overContainer === 'completed-sortable') {
+        dispatach(todoMarkCompleted(overId));
+      } else if (overContainer === 'inprogress-sortable') {
+        dispatach(todoMarkInProgess(overId));
+      }
+    }
   };
 
   return (
