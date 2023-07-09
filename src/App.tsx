@@ -15,9 +15,8 @@ import InProgressTodo from './components/InProgressTodo';
 import {
   SortableContext,
   arrayMove,
-  verticalListSortingStrategy,
+  rectSortingStrategy,
 } from '@dnd-kit/sortable';
-import { todo } from 'node:test';
 
 function App() {
   const allTodos = useAppSelector(state => state.todos);
@@ -27,7 +26,6 @@ function App() {
   const dispatach = useAppDispatch();
 
   const handleDragEnd = (event: DragEndEvent): void => {
-    console.log(event);
     const { active, over } = event;
     if (active.id !== over?.id) {
       const oldIndex = inCompletedTodos.findIndex(
@@ -36,23 +34,20 @@ function App() {
       const newIndex = inCompletedTodos.findIndex(todo => todo.id === over?.id);
       const newTodos = arrayMove(inCompletedTodos, oldIndex, newIndex);
       dispatach(changeIndex(newTodos));
-      console.log(newTodos);
     }
   };
   const handleDragOver = (event: DragOverEvent): void => {
+    console.log(event);
     const overId = event.over?.id;
     if (!overId) return;
     const activeContainer = event.active.data.current?.sortable.containerId;
     const overContainer = event.over?.data.current?.sortable.containerId;
+    console.log(overContainer);
     if (!overContainer) return;
     if (activeContainer !== overContainer) {
+      console.log('handleDrap Over');
       console.log(activeContainer);
       console.log(overContainer);
-      if (overContainer === 'completed-sortable') {
-        dispatach(todoMarkCompleted(overId));
-      } else if (overContainer === 'inprogress-sortable') {
-        dispatach(todoMarkInProgess(overId));
-      }
     }
   };
 
@@ -60,30 +55,30 @@ function App() {
     <div className="App">
       <div className="grid place-items-center bg-blue-100  px-6 font-sans">
         <Navbar />
-        <DndContext onDragEnd={handleDragEnd} onDragOver={handleDragOver}>
+        <DndContext onDragOver={handleDragOver}>
           <div className="w-full max-w-3xl shadow-lg rounded-lg p-6 bg-white mt-40">
             <Header />
           </div>
-          <InProgressTodo>
-            <SortableContext
-              id="inprogress-sortable"
-              items={inCompletedTodos}
-              strategy={verticalListSortingStrategy}
-            >
+
+          <SortableContext
+            id="inprogress-sortable"
+            items={inCompletedTodos}
+            strategy={rectSortingStrategy}
+          >
+            <InProgressTodo>
               <TodoList todos={inCompletedTodos} />
-            </SortableContext>
-          </InProgressTodo>
-          <CompletedTodo>
-            <SortableContext
-              id="completed-sortable"
-              items={completedTodos}
-              strategy={verticalListSortingStrategy}
-            >
-              <TodoList
-                todos={completedTodos.length > 0 ? completedTodos : []}
-              />
-            </SortableContext>
-          </CompletedTodo>
+            </InProgressTodo>
+          </SortableContext>
+
+          <SortableContext
+            id="completed-sortable"
+            items={completedTodos}
+            strategy={rectSortingStrategy}
+          >
+            <CompletedTodo>
+              <TodoList todos={completedTodos} />
+            </CompletedTodo>
+          </SortableContext>
         </DndContext>
       </div>
     </div>

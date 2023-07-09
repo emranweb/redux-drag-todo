@@ -7,11 +7,10 @@ const CompletedTodo = ({ children }: { children: React.ReactNode }) => {
   });
   return (
     <div
-      className="w-full max-w-3xl shadow-lg rounded-lg p-6 bg-white mt-4 mb-36"
+      className="w-full max-w-3xl shadow-lg rounded-lg p-6 bg-white"
       ref={setNodeRef}
     >
-      <h4> Completed</h4>
-      <hr />
+      MH
       {children}
     </div>
   );

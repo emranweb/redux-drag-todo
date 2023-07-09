@@ -7,11 +7,9 @@ const InProgressTodo = ({ children }: { children: React.ReactNode }) => {
   });
   return (
     <div
-      className="w-full max-w-3xl shadow-lg rounded-lg p-6 bg-white mt-4 mb-4"
+      className="w-full max-w-3xl shadow-lg rounded-lg p-6 bg-white"
       ref={setNodeRef}
     >
-      <h4>In Progress</h4>
-      <hr />
       {children}
     </div>
   );
