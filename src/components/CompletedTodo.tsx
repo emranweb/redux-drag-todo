@@ -1,8 +1,8 @@
-import { useDroppable } from '@dnd-kit/core';
+import { useSortable } from '@dnd-kit/sortable';
 import React from 'react';
 
 const CompletedTodo = ({ children }: { children: React.ReactNode }) => {
-  const { setNodeRef } = useDroppable({
+  const { setNodeRef } = useSortable({
     id: 'completed',
   });
   return (

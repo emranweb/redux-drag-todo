@@ -46,12 +46,12 @@ function App() {
     }
   };
   const handleDragOver = (event: DragOverEvent): void => {
-    console.log(event);
     const overId = event.over?.id;
+    console.log('onoverevent', event);
     if (!overId) return;
     const activeContainer = event.active.data.current?.sortable.containerId;
     const overContainer = event.over?.data.current?.sortable.containerId;
-    console.log('over', overContainer);
+
     if (!overContainer) return;
     if (activeContainer !== overContainer) {
       console.log('handleDrap Over');
