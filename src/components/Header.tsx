@@ -42,6 +42,7 @@ const Header = () => {
                     edit: false,
                     title: data.value,
                     completed: false,
+                    status: 'backlog',
                 })
             );
         }
@@ -53,14 +54,13 @@ const Header = () => {
     return (
         <div>
             <form
-                className={`flex items-center bg-gray-100 px-4 py-4 rounded-md ${
+                className={`flex items-center bg-gray-100 px-3 py-3 rounded-md ${
                     data.value === ''
                         ? 'border border-red-400'
-                        : 'border border-gray-400'
+                        : 'border border-green-400'
                 }`}
                 onSubmit={handleSubmit}
             >
-                <img src={noteImage} className="w-6 h-6" alt="Add todo" />
                 <input
                     type="text"
                     value={data.value}

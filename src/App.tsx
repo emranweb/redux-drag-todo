@@ -2,20 +2,10 @@ import React, { useState } from 'react';
 
 import Header from './components/Header';
 import Navbar from './components/Navbar';
-import TodoList from './components/TodoList';
 import CompletedTodo from './components/CompletedTodo';
-import {
-    DndContext,
-    DragEndEvent,
-    DragOverEvent,
-    DragOverlay,
-} from '@dnd-kit/core';
+import { DndContext, DragEndEvent, DragOverlay } from '@dnd-kit/core';
 import { useAppDispatch, useAppSelector } from './hooks/app';
-import {
-    changeIndex,
-    todoMarkCompleted,
-    todoMarkInProgess,
-} from './features/todos/todoSlice';
+import { changeIndex, todoMarkCompleted } from './features/todos/todoSlice';
 import InProgressTodo from './components/InProgressTodo';
 import {
     SortableContext,
@@ -23,7 +13,6 @@ import {
     rectSortingStrategy,
 } from '@dnd-kit/sortable';
 import { createPortal } from 'react-dom';
-import { adjustScale } from '@dnd-kit/core/dist/utilities';
 import TodoItem from './components/TodoItem';
 
 function App() {
@@ -31,7 +20,6 @@ function App() {
     const inCompletedTodos = allTodos.filter(todo => todo.completed === false);
     const completedTodos = allTodos.filter(todo => todo.completed === true);
     const [activeId, setActiveId] = useState<number | string | null>(null);
-    const [containers, setContainers] = useState<string | null>('');
     const dispatach = useAppDispatch();
 
     const handleDragEnd = (event: DragEndEvent): void => {
@@ -65,8 +53,6 @@ function App() {
     //     dispatach(todoMarkCompleted(activeId));
     //   }
     // };
-
-    console.log(activeId);
 
     return (
         <div className="App">
