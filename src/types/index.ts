@@ -1,16 +1,17 @@
 export interface Todo {
-  id: number;
-  title: string;
-  edit: boolean;
-  dueDate: string;
-  priority: 'high' | 'medium' | 'low';
-  completed: boolean;
+    id: number;
+    title: string;
+    edit: boolean;
+    dueDate: string;
+    priority: 'high' | 'medium' | 'low';
+    completed: boolean;
+    status: 'backlog' | 'inprogress' | 'done';
 }
 
 export interface Todos {
-  todos: Todo[];
+    todos: Todo[];
 }
 
 export const ItemTypes = {
-  TODO: 'todo',
+    TODO: 'todo',
 };

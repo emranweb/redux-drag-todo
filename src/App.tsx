@@ -5,7 +5,12 @@ import Navbar from './components/Navbar';
 import CompletedTodo from './components/CompletedTodo';
 import { DndContext, DragEndEvent, DragOverlay } from '@dnd-kit/core';
 import { useAppDispatch, useAppSelector } from './hooks/app';
-import { changeIndex, todoMarkCompleted } from './features/todos/todoSlice';
+import {
+    changeIndex,
+    todoMarkBacklog,
+    todoMarkCompleted,
+    todoMarkInProgess,
+} from './features/todos/todoSlice';
 import InProgressTodo from './components/InProgressTodo';
 import {
     SortableContext,
@@ -14,11 +19,15 @@ import {
 } from '@dnd-kit/sortable';
 import { createPortal } from 'react-dom';
 import TodoItem from './components/TodoItem';
+import BacklogTodo from './components/BacklogTodo';
 
 function App() {
     const allTodos = useAppSelector(state => state.todos);
-    const inCompletedTodos = allTodos.filter(todo => todo.completed === false);
-    const completedTodos = allTodos.filter(todo => todo.completed === true);
+    const backlogTodos = allTodos.filter(todo => todo.status === 'backlog');
+    const inCompletedTodos = allTodos.filter(
+        todo => todo.status === 'inprogress'
+    );
+    const completedTodos = allTodos.filter(todo => todo.status === 'done');
     const [activeId, setActiveId] = useState<number | string | null>(null);
     const dispatach = useAppDispatch();
 
@@ -27,9 +36,8 @@ function App() {
 
         const activeContainer = event.active.data.current?.sortable.containerId;
         const overContainer = event.over?.data.current?.sortable.containerId;
-        if (activeContainer !== overContainer) {
-            dispatach(todoMarkCompleted(active.id));
-        } else {
+        if (!activeContainer || !overContainer) return;
+        if (activeContainer === overContainer) {
             if (active.id !== over?.id) {
                 const oldIndex = allTodos.findIndex(
                     todo => todo.id === active.id
@@ -40,72 +48,86 @@ function App() {
                 const newTodos = arrayMove(allTodos, oldIndex, newIndex);
                 dispatach(changeIndex(newTodos));
             }
+        } else {
+            if (overContainer === 'backlog-sortable') {
+                dispatach(todoMarkBacklog(active.id));
+            }
+            if (overContainer === 'inprogress-sortable') {
+                dispatach(todoMarkInProgess(active.id));
+            }
+            if (overContainer === 'completed-sortable') {
+                dispatach(todoMarkCompleted(active.id));
+            }
         }
     };
-    // const handleDragOver = (event: DragOverEvent): void => {
-    //   const overId = event.over?.id;
-    //   if (!overId) return;
-    //   const activeContainer = event.active.data.current?.sortable.containerId;
-    //   const overContainer = event.over?.data.current?.sortable.containerId;
-
-    //   if (!overContainer) return;
-    //   if (activeContainer !== overContainer) {
-    //     dispatach(todoMarkCompleted(activeId));
-    //   }
-    // };
 
     return (
         <div className="App">
-            <div className="grid place-items-center bg-blue-100  px-6 font-sans">
+            <div className="  px-6 font-sans">
                 <Navbar />
-                <DndContext
-                    onDragEnd={handleDragEnd}
-                    onDragStart={({ active }) => {
-                        setActiveId(active.id);
-                    }}
-                >
-                    <div className="w-full max-w-3xl shadow-lg rounded-lg p-6 bg-white mt-40">
-                        <Header />
-                    </div>
-
-                    <SortableContext
-                        id="inprogress-sortable"
-                        items={inCompletedTodos}
-                        strategy={rectSortingStrategy}
+                <div className="todo-container">
+                    <DndContext
+                        onDragEnd={handleDragEnd}
+                        onDragStart={({ active }) => {
+                            setActiveId(active.id);
+                        }}
                     >
-                        <InProgressTodo>
-                            {inCompletedTodos.map(item => (
-                                <TodoItem key={item.id} todo={item} />
-                            ))}
-                        </InProgressTodo>
-                    </SortableContext>
+                        <div className="w-full  shadow-lg rounded-lg p-6 bg-white mt-40">
+                            <Header />
+                        </div>
 
-                    <SortableContext
-                        id="completed-sortable"
-                        items={completedTodos}
-                        strategy={rectSortingStrategy}
-                    >
-                        <CompletedTodo>
-                            {completedTodos.map(item => (
-                                <TodoItem key={item.id} todo={item} />
-                            ))}
-                        </CompletedTodo>
-                    </SortableContext>
-                    {createPortal(
-                        <DragOverlay>
-                            {activeId ? (
-                                <TodoItem
-                                    todo={
-                                        allTodos.filter(
-                                            item => item.id === activeId
-                                        )[0]
-                                    }
-                                />
-                            ) : null}
-                        </DragOverlay>,
-                        document.body
-                    )}
-                </DndContext>
+                        <div className="flex gap-4 m-4">
+                            <SortableContext
+                                id="backlog-sortable"
+                                items={backlogTodos}
+                                strategy={rectSortingStrategy}
+                            >
+                                <BacklogTodo>
+                                    {backlogTodos.map(item => (
+                                        <TodoItem key={item.id} todo={item} />
+                                    ))}
+                                </BacklogTodo>
+                            </SortableContext>
+                            <SortableContext
+                                id="inprogress-sortable"
+                                items={inCompletedTodos}
+                                strategy={rectSortingStrategy}
+                            >
+                                <InProgressTodo>
+                                    {inCompletedTodos.map(item => (
+                                        <TodoItem key={item.id} todo={item} />
+                                    ))}
+                                </InProgressTodo>
+                            </SortableContext>
+
+                            <SortableContext
+                                id="completed-sortable"
+                                items={completedTodos}
+                                strategy={rectSortingStrategy}
+                            >
+                                <CompletedTodo>
+                                    {completedTodos.map(item => (
+                                        <TodoItem key={item.id} todo={item} />
+                                    ))}
+                                </CompletedTodo>
+                            </SortableContext>
+                        </div>
+                        {createPortal(
+                            <DragOverlay>
+                                {activeId ? (
+                                    <TodoItem
+                                        todo={
+                                            allTodos.filter(
+                                                item => item.id === activeId
+                                            )[0]
+                                        }
+                                    />
+                                ) : null}
+                            </DragOverlay>,
+                            document.body
+                        )}
+                    </DndContext>
+                </div>
             </div>
         </div>
     );
