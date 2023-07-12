@@ -61,12 +61,12 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
                     completed ? 'bg-green-500' : 'bg-gray-400'
                 }`}
             >
-                <input
+                {/* <input
                     type="checkbox"
                     checked={completed}
                     className="opacity-0 absolute rounded-full"
                     onChange={() => handleChange(id)}
-                />
+                /> */}
             </div>
 
             <div className={`select-none flex flex-1`}>
