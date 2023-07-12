@@ -7,7 +7,7 @@ const CompletedTodo = ({ children }: { children: React.ReactNode }) => {
   });
   return (
     <div
-      className="w-full max-w-3xl shadow-lg rounded-lg p-6 bg-white h-6"
+      className="w-full max-w-3xl shadow-lg rounded-lg p-6 bg-white"
       ref={setNodeRef}
     >
       {children}
