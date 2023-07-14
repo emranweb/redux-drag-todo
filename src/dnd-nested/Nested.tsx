@@ -1,6 +1,15 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { TreeItems } from '../types';
-import { UniqueIdentifier } from '@dnd-kit/core';
+import {
+    DndContext,
+    DragOverlay,
+    UniqueIdentifier,
+    closestCenter,
+} from '@dnd-kit/core';
+import { flattenTree, removeChildrenOf } from './utilities';
+import { createPortal } from 'react-dom';
+import { SortableContext } from '@dnd-kit/sortable';
+import TreeItem from './TreeItem';
 
 const initialItems: TreeItems = [
     {
@@ -20,14 +29,14 @@ const initialItems: TreeItems = [
 
 const Nested = () => {
     const [items, setItems] = useState(() => initialItems);
-    const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
-    const [overId, setOverId] = useState<UniqueIdentifier | null>(null);
-    const [offsetLeft, setOffsetLeft] = useState(0);
-    const [currentPosition, setCurrentPosition] = useState<{
-        parentId: UniqueIdentifier | null;
-        overId: UniqueIdentifier;
-    } | null>(null);
-    return <div>Nested</div>;
+
+    return (
+        <DndContext>
+            <SortableContext items={items}>
+                 {items.map((item) => (<TreeItem id="item.id">{}</TreeItem>)}
+            </SortableContext>
+        </DndContext>
+    );
 };
 
 export default Nested;
