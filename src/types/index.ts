@@ -1,3 +1,5 @@
+import { UniqueIdentifier } from '@dnd-kit/core';
+
 export interface Todo {
     id: number;
     title: string;
@@ -15,3 +17,11 @@ export interface Todos {
 export const ItemTypes = {
     TODO: 'todo',
 };
+
+export interface TreeItem {
+    id: UniqueIdentifier;
+    children: TreeItem[];
+    collapsed?: boolean;
+}
+
+export type TreeItems = TreeItem[];

@@ -20,6 +20,7 @@ import {
 import { createPortal } from 'react-dom';
 import TodoItem from './components/TodoItem';
 import BacklogTodo from './components/BacklogTodo';
+import Nested from './dnd-nested/Nested';
 
 function App() {
     const allTodos = useAppSelector(state => state.todos);
@@ -62,74 +63,75 @@ function App() {
     };
 
     return (
-        <div className="App">
-            <div className="  px-6 font-sans">
-                <Navbar />
-                <div className="todo-container">
-                    <DndContext
-                        onDragEnd={handleDragEnd}
-                        onDragStart={({ active }) => {
-                            setActiveId(active.id);
-                        }}
-                    >
-                        <div className="w-full  shadow-lg rounded-lg p-6 bg-white mt-40">
-                            <Header />
-                        </div>
+        // <div className="App">
+        //     <div className="  px-6 font-sans">
+        //         <Navbar />
+        //         <div className="todo-container">
+        //             <DndContext
+        //                 onDragEnd={handleDragEnd}
+        //                 onDragStart={({ active }) => {
+        //                     setActiveId(active.id);
+        //                 }}
+        //             >
+        //                 <div className="w-full  shadow-lg rounded-lg p-6 bg-white mt-40">
+        //                     <Header />
+        //                 </div>
 
-                        <div className="flex gap-4 m-4">
-                            <SortableContext
-                                id="backlog-sortable"
-                                items={backlogTodos}
-                                strategy={rectSortingStrategy}
-                            >
-                                <BacklogTodo>
-                                    {backlogTodos.map(item => (
-                                        <TodoItem key={item.id} todo={item} />
-                                    ))}
-                                </BacklogTodo>
-                            </SortableContext>
-                            <SortableContext
-                                id="inprogress-sortable"
-                                items={inCompletedTodos}
-                                strategy={rectSortingStrategy}
-                            >
-                                <InProgressTodo>
-                                    {inCompletedTodos.map(item => (
-                                        <TodoItem key={item.id} todo={item} />
-                                    ))}
-                                </InProgressTodo>
-                            </SortableContext>
+        //                 <div className="flex gap-4 m-4">
+        //                     <SortableContext
+        //                         id="backlog-sortable"
+        //                         items={backlogTodos}
+        //                         strategy={rectSortingStrategy}
+        //                     >
+        //                         <BacklogTodo>
+        //                             {backlogTodos.map(item => (
+        //                                 <TodoItem key={item.id} todo={item} />
+        //                             ))}
+        //                         </BacklogTodo>
+        //                     </SortableContext>
+        //                     <SortableContext
+        //                         id="inprogress-sortable"
+        //                         items={inCompletedTodos}
+        //                         strategy={rectSortingStrategy}
+        //                     >
+        //                         <InProgressTodo>
+        //                             {inCompletedTodos.map(item => (
+        //                                 <TodoItem key={item.id} todo={item} />
+        //                             ))}
+        //                         </InProgressTodo>
+        //                     </SortableContext>
 
-                            <SortableContext
-                                id="completed-sortable"
-                                items={completedTodos}
-                                strategy={rectSortingStrategy}
-                            >
-                                <CompletedTodo>
-                                    {completedTodos.map(item => (
-                                        <TodoItem key={item.id} todo={item} />
-                                    ))}
-                                </CompletedTodo>
-                            </SortableContext>
-                        </div>
-                        {createPortal(
-                            <DragOverlay>
-                                {activeId ? (
-                                    <TodoItem
-                                        todo={
-                                            allTodos.filter(
-                                                item => item.id === activeId
-                                            )[0]
-                                        }
-                                    />
-                                ) : null}
-                            </DragOverlay>,
-                            document.body
-                        )}
-                    </DndContext>
-                </div>
-            </div>
-        </div>
+        //                     <SortableContext
+        //                         id="completed-sortable"
+        //                         items={completedTodos}
+        //                         strategy={rectSortingStrategy}
+        //                     >
+        //                         <CompletedTodo>
+        //                             {completedTodos.map(item => (
+        //                                 <TodoItem key={item.id} todo={item} />
+        //                             ))}
+        //                         </CompletedTodo>
+        //                     </SortableContext>
+        //                 </div>
+        //                 {createPortal(
+        //                     <DragOverlay>
+        //                         {activeId ? (
+        //                             <TodoItem
+        //                                 todo={
+        //                                     allTodos.filter(
+        //                                         item => item.id === activeId
+        //                                     )[0]
+        //                                 }
+        //                             />
+        //                         ) : null}
+        //                     </DragOverlay>,
+        //                     document.body
+        //                 )}
+        //             </DndContext>
+        //         </div>
+        //     </div>
+        // </div>
+        <Nested />
     );
 }
 
