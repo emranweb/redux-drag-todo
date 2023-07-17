@@ -15,7 +15,13 @@ export const TreeItem = ({
 
     const style = { transform: CSS.Transform.toString(transform), transition };
     return (
-        <li style={style} ref={setNodeRef} {...attributes} {...listeners}>
+        <li
+            className="bg-red-100 p-2 rounded-sm m-2 inline- max-w-xs"
+            style={style}
+            ref={setNodeRef}
+            {...attributes}
+            {...listeners}
+        >
             {children}
         </li>
     );

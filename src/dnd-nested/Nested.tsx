@@ -3,6 +3,7 @@ import { TreeItems } from '../types';
 import {
     DndContext,
     DragOverlay,
+    DragStartEvent,
     UniqueIdentifier,
     closestCenter,
 } from '@dnd-kit/core';
@@ -30,16 +31,40 @@ const initialItems: TreeItems = [
 
 const Nested = () => {
     const [items, setItems] = useState(() => initialItems);
-    console.log(items);
+    const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
+
+    const handleDragStart = (event: DragStartEvent) => {
+        const { active } = event;
+        const { id } = active;
+        setActiveId(id);
+    };
 
     return (
-        <DndContext>
-            <SortableContext items={items.map(item => item.id)}>
-                {items.map(item => (
-                    <TreeItem key={item.id} id={item.id.toString()}>
-                        {item.id.toString()}
-                    </TreeItem>
-                ))}
+        <DndContext onDragStart={handleDragStart}>
+            <SortableContext items={items} id="sortable-1">
+                <div className="flex flex-col gap-2 bg-slate-300">
+                    {items.map(item => (
+                        <TreeItem key={item.id} id={item.id.toString()}>
+                            {item.id.toString()}
+                        </TreeItem>
+                    ))}
+                </div>
+                {createPortal(
+                    <DragOverlay>
+                        {activeId ? (
+                            <TreeItem id={activeId.toString()}>
+                                {items
+                                    .filter(
+                                        item =>
+                                            item.id.toString() ===
+                                            activeId.toString()
+                                    )[0]
+                                    .id.toString()}
+                            </TreeItem>
+                        ) : null}
+                    </DragOverlay>,
+                    document.body
+                )}
             </SortableContext>
         </DndContext>
     );
