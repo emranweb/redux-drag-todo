@@ -10,6 +10,7 @@ import { flattenTree, removeChildrenOf } from './utilities';
 import { createPortal } from 'react-dom';
 import { SortableContext } from '@dnd-kit/sortable';
 import TreeItem from './TreeItem';
+import { v4 as uuidv4 } from 'uuid';
 
 const initialItems: TreeItems = [
     {
@@ -29,11 +30,16 @@ const initialItems: TreeItems = [
 
 const Nested = () => {
     const [items, setItems] = useState(() => initialItems);
+    console.log(items);
 
     return (
         <DndContext>
-            <SortableContext items={items}>
-                 {items.map((item) => (<TreeItem id="item.id">{}</TreeItem>)}
+            <SortableContext items={items.map(item => item.id)}>
+                {items.map(item => (
+                    <TreeItem key={item.id} id={item.id.toString()}>
+                        {item.id.toString()}
+                    </TreeItem>
+                ))}
             </SortableContext>
         </DndContext>
     );
