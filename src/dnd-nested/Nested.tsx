@@ -42,17 +42,17 @@ const Nested = () => {
 
     const flattenedItems = useMemo(() => {
         const flattenedTree = flattenTree(items);
-        console.log(flattenedTree);
-        const collapsedItems = flattenedTree.reduce<string[]>(
+
+        const collapsedItems = flattenedTree.reduce(
             (acc, { children, collapsed, id }) =>
                 collapsed && children.length ? [...acc, id] : acc,
             []
         );
 
-        return removeChildrenOf(
-            flattenedTree,
-            activeId ? [activeId, ...collapsedItems] : collapsedItems
-        );
+        // return removeChildrenOf(
+        //     flattenedTree,
+        //     activeId ? [activeId, ...collapsedItems] : collapsedItems
+        // );
     }, [activeId, items]);
 
     const handleDragStart = (event: DragStartEvent) => {
