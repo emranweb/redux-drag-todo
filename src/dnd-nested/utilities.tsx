@@ -76,19 +76,24 @@ function getMinDepth({ nextItem }: { nextItem: FlattenedItem }) {
     return 0;
 }
 
-function flatten(
-    items: TreeItems,
-    parentId: UniqueIdentifier | null = null,
-    depth = 0
-): FlattenedItem[] {
-    return items.reduce<FlattenedItem[]>((acc, item, index) => {
-        return [
-            ...acc,
-            { ...item, parentId, depth, index },
-            ...flatten(item.children, item.id, depth + 1),
-        ];
-    }, []);
-}
+const flatten = () => {
+    const parantId = null;
+    const depth = 0;
+    const items = [];
+    initialItems.map((item, index) => [
+        items.push({ ...item, parantId, depth, index }),
+        item.children.map((child, index) =>
+            items.push({
+                ...child,
+                parantId: item.id,
+                depth: depth + 1,
+                index: index,
+            })
+        ),
+    ]);
+
+    return items;
+};
 
 export function flattenTree(items: TreeItems): FlattenedItem[] {
     return flatten(items);

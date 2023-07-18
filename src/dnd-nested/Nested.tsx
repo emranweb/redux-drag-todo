@@ -12,6 +12,7 @@ import { createPortal } from 'react-dom';
 import { SortableContext } from '@dnd-kit/sortable';
 import TreeItem from './TreeItem';
 import { v4 as uuidv4 } from 'uuid';
+import { log } from 'console';
 
 const initialItems: TreeItems = [
     {
@@ -32,11 +33,31 @@ const initialItems: TreeItems = [
 const Nested = () => {
     const [items, setItems] = useState(() => initialItems);
     const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
+    const [overId, setOverId] = useState<UniqueIdentifier | null>(null);
+    const [offsetLeft, setOffsetLeft] = useState(0);
+    const [currentPosition, setCurrentPosition] = useState<{
+        parentId: UniqueIdentifier | null;
+        overId: UniqueIdentifier | null;
+    } | null>(null);
+
+    const flattenedItems = useMemo(() => {
+        const flattenedTree = flattenTree(items);
+        console.log(flattenedTree);
+        const collapsedItems = flattenedTree.reduce<string[]>(
+            (acc, { children, collapsed, id }) =>
+                collapsed && children.length ? [...acc, id] : acc,
+            []
+        );
+
+        return removeChildrenOf(
+            flattenedTree,
+            activeId ? [activeId, ...collapsedItems] : collapsedItems
+        );
+    }, [activeId, items]);
 
     const handleDragStart = (event: DragStartEvent) => {
-        const { active } = event;
-        const { id } = active;
-        setActiveId(id);
+        setActiveId(event.active.id);
+        setOverId(event.active.id);
     };
 
     return (
