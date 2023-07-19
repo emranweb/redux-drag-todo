@@ -13,6 +13,7 @@ import { SortableContext } from '@dnd-kit/sortable';
 import TreeItem from './TreeItem';
 import { v4 as uuidv4 } from 'uuid';
 import { log } from 'console';
+import { FlattenedItem } from './types';
 
 const initialItems: TreeItems = [
     {
@@ -39,20 +40,29 @@ const Nested = () => {
         parentId: UniqueIdentifier | null;
         overId: UniqueIdentifier | null;
     } | null>(null);
+    const [indentationWidth, setIndentationWidth] = useState(40);
 
     const flattenedItems = useMemo(() => {
         const flattenedTree = flattenTree(items);
 
-        const collapsedItems = flattenedTree.reduce(
-            (acc, { children, collapsed, id }) =>
-                collapsed && children.length ? [...acc, id] : acc,
+        // const collapsedItems = flattenedTree.reduce(
+        //     (acc, item) =>
+        //         item.collapsed && children.length ? [...acc, item.id] : acc,
+        //     []
+        // );
+
+        const collapsedItems = flattenedTree.reduce<any>(
+            (acc, item) =>
+                item.collapsed && item.children ? [...acc, item.id] : acc,
             []
         );
 
-        // return removeChildrenOf(
-        //     flattenedTree,
-        //     activeId ? [activeId, ...collapsedItems] : collapsedItems
-        // );
+        console.log('flattenedItems', flattenedTree);
+
+        return removeChildrenOf(
+            flattenedTree,
+            activeId ? [activeId, ...collapsedItems] : collapsedItems
+        );
     }, [activeId, items]);
 
     const handleDragStart = (event: DragStartEvent) => {
@@ -64,8 +74,13 @@ const Nested = () => {
         <DndContext onDragStart={handleDragStart}>
             <SortableContext items={items} id="sortable-1">
                 <div className="flex flex-col gap-2 bg-slate-300">
-                    {items.map(item => (
-                        <TreeItem key={item.id} id={item.id.toString()}>
+                    {flattenedItems.map(item => (
+                        <TreeItem
+                            key={item.id}
+                            depth={item.depth}
+                            indentationWidth={indentationWidth}
+                            id={item.id.toString()}
+                        >
                             {item.id.toString()}
                         </TreeItem>
                     ))}
