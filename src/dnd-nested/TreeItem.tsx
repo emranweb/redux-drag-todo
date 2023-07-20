@@ -17,12 +17,12 @@ export const TreeItem = ({
             id: id,
         });
 
+    const marginLeft = depth ? indentationWidth * depth : 0;
+
     const style = { transform: CSS.Transform.toString(transform), transition };
     return (
         <li
-            className={`bg-red-100 p-2 rounded-sm m-2 inline- max-w-xs mx-[${
-                depth === 1 ? indentationWidth * depth : 0
-            }px]`}
+            className={`bg-red-100 p-2 rounded-sm m-2 inline- max-w-xs mx-[${marginLeft}px]`}
             style={style}
             ref={setNodeRef}
             {...attributes}

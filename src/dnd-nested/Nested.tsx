@@ -2,12 +2,14 @@ import React, { useMemo, useState } from 'react';
 import { TreeItems } from '../types';
 import {
     DndContext,
+    DragMoveEvent,
+    DragOverEvent,
     DragOverlay,
     DragStartEvent,
     UniqueIdentifier,
     closestCenter,
 } from '@dnd-kit/core';
-import { flattenTree, removeChildrenOf } from './utilities';
+import { flattenTree, getProjection, removeChildrenOf } from './utilities';
 import { createPortal } from 'react-dom';
 import { SortableContext } from '@dnd-kit/sortable';
 import TreeItem from './TreeItem';
@@ -27,6 +29,17 @@ const initialItems: TreeItems = [
             { id: 'Summer', children: [] },
             { id: 'Fall', children: [] },
             { id: 'Winter', children: [] },
+        ],
+    },
+    {
+        id: 'About Us',
+        children: [],
+    },
+    {
+        id: 'My Account',
+        children: [
+            { id: 'Addresses', children: [] },
+            { id: 'Order History', children: [] },
         ],
     },
 ];
@@ -68,10 +81,44 @@ const Nested = () => {
     const handleDragStart = (event: DragStartEvent) => {
         setActiveId(event.active.id);
         setOverId(event.active.id);
+        const activeItem = flattenedItems.find(
+            ({ id }) => id === event.active.id
+        );
+        if (activeItem) {
+            setCurrentPosition({
+                parentId: activeItem.parentId,
+                overId: activeId,
+            });
+        }
     };
 
+    function handleDragMove({ delta }: DragMoveEvent) {
+        setOffsetLeft(delta.x);
+    }
+
+    function handleDragOver({ over }: DragOverEvent) {
+        setOverId(over?.id ?? null);
+    }
+
+    console.log('overid', overId);
+
+    const projected =
+        activeId && overId
+            ? getProjection(
+                  flattenedItems,
+                  activeId,
+                  overId,
+                  offsetLeft,
+                  indentationWidth
+              )
+            : null;
+
     return (
-        <DndContext onDragStart={handleDragStart}>
+        <DndContext
+            onDragStart={handleDragStart}
+            onDragMove={handleDragMove}
+            onDragOver={handleDragOver}
+        >
             <SortableContext items={items} id="sortable-1">
                 <div className="flex flex-col gap-2 bg-slate-300">
                     {flattenedItems.map(item => (
@@ -89,7 +136,7 @@ const Nested = () => {
                     <DragOverlay>
                         {activeId ? (
                             <TreeItem id={activeId.toString()}>
-                                {items
+                                {flattenedItems
                                     .filter(
                                         item =>
                                             item.id.toString() ===
