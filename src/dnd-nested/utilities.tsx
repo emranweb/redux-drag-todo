@@ -30,7 +30,7 @@ export function getProjection(
     const maxDepth = getMaxDepth({
         previousItem,
     });
-    console.log(maxDepth);
+
     const minDepth = getMinDepth({ nextItem });
     let depth = projectedDepth;
 
