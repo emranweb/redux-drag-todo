@@ -22,11 +22,15 @@ export function getProjection(
     const newItems = arrayMove(items, activeItemIndex, overItemIndex);
     const previousItem = newItems[overItemIndex - 1];
     const nextItem = newItems[overItemIndex + 1];
+
     const dragDepth = getDragDepth(dragOffset, indentationWidth);
+
     const projectedDepth = activeItem.depth + dragDepth;
+
     const maxDepth = getMaxDepth({
         previousItem,
     });
+    console.log(maxDepth);
     const minDepth = getMinDepth({ nextItem });
     let depth = projectedDepth;
 
@@ -102,6 +106,7 @@ export function flattenTree(items: TreeItems): FlattenedItem[] {
 export function buildTree(flattenedItems: FlattenedItem[]): TreeItems {
     const root: TreeItem = { id: 'root', children: [] };
     const nodes: Record<string, TreeItem> = { [root.id]: root };
+
     const items = flattenedItems.map(item => ({ ...item, children: [] }));
 
     for (const item of items) {
@@ -112,6 +117,7 @@ export function buildTree(flattenedItems: FlattenedItem[]): TreeItems {
         nodes[id] = { id, children };
         parent.children.push(item);
     }
+    console.log('root childredn', root.children);
 
     return root.children;
 }

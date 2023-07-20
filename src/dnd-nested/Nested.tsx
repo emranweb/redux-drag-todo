@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { TreeItems } from '../types';
 import {
     DndContext,
+    DragEndEvent,
     DragMoveEvent,
     DragOverEvent,
     DragOverlay,
@@ -9,12 +10,17 @@ import {
     UniqueIdentifier,
     closestCenter,
 } from '@dnd-kit/core';
-import { flattenTree, getProjection, removeChildrenOf } from './utilities';
+import {
+    buildTree,
+    flattenTree,
+    getProjection,
+    removeChildrenOf,
+} from './utilities';
 import { createPortal } from 'react-dom';
-import { SortableContext } from '@dnd-kit/sortable';
+import { SortableContext, arrayMove } from '@dnd-kit/sortable';
 import TreeItem from './TreeItem';
 import { v4 as uuidv4 } from 'uuid';
-import { log } from 'console';
+
 import { FlattenedItem } from './types';
 
 const initialItems: TreeItems = [
@@ -70,8 +76,6 @@ const Nested = () => {
             []
         );
 
-        console.log('flattenedItems', flattenedTree);
-
         return removeChildrenOf(
             flattenedTree,
             activeId ? [activeId, ...collapsedItems] : collapsedItems
@@ -100,7 +104,40 @@ const Nested = () => {
         setOverId(over?.id ?? null);
     }
 
-    console.log('overid', overId);
+    function handleDragEnd({ active, over }: DragEndEvent) {
+        resetState();
+        // if (projected && over) {
+        //     const { depth, parentId } = projected;
+        //     console.log('projected', projected);
+        //     const clonedItems: FlattenedItem[] = JSON.parse(
+        //         JSON.stringify(flattenTree(items))
+        //     );
+
+        //     const overIndex = clonedItems.findIndex(({ id }) => id === over.id);
+        //     const activeIndex = clonedItems.findIndex(
+        //         ({ id }) => id === active.id
+        //     );
+
+        //     const activeTreeItem = clonedItems[activeIndex];
+
+        //     clonedItems[activeIndex] = { ...activeTreeItem, depth, parentId };
+
+        //     const sortedItems = arrayMove(clonedItems, activeIndex, overIndex);
+
+        //     const newItems = buildTree(sortedItems);
+
+        //     setItems(newItems);
+        // }
+    }
+
+    function resetState() {
+        setOverId(null);
+        setActiveId(null);
+        setOffsetLeft(0);
+        setCurrentPosition(null);
+
+        document.body.style.setProperty('cursor', '');
+    }
 
     const projected =
         activeId && overId
@@ -118,6 +155,7 @@ const Nested = () => {
             onDragStart={handleDragStart}
             onDragMove={handleDragMove}
             onDragOver={handleDragOver}
+            onDragEnd={handleDragEnd}
         >
             <SortableContext items={items} id="sortable-1">
                 <div className="flex flex-col gap-2 bg-slate-300">

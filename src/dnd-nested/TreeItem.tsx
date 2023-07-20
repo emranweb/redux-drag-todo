@@ -22,7 +22,9 @@ export const TreeItem = ({
     const style = { transform: CSS.Transform.toString(transform), transition };
     return (
         <li
-            className={`bg-red-100 p-2 rounded-sm m-2 inline- max-w-xs mx-[${marginLeft}px]`}
+            className={`bg-red-100 p-2 rounded-sm m-2  max-w-xs ${
+                marginLeft ? 'mx-10' : ''
+            }`}
             style={style}
             ref={setNodeRef}
             {...attributes}
