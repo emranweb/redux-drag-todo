@@ -21,6 +21,7 @@ import { createPortal } from 'react-dom';
 import TodoItem from './components/TodoItem';
 import BacklogTodo from './components/BacklogTodo';
 import Nested from './dnd-nested/Nested';
+import DNDChildren from './dnd-child/DNDChildren';
 
 function App() {
     const allTodos = useAppSelector(state => state.todos);
@@ -131,7 +132,7 @@ function App() {
         //         </div>
         //     </div>
         // </div>
-        <Nested />
+        <DNDChildren />
     );
 }
 

@@ -40,6 +40,10 @@ export function getProjection(
         depth = minDepth;
     }
 
+    console.log('dept', depth);
+    console.log('max', maxDepth);
+    console.log('min', minDepth);
+
     return { depth, maxDepth, minDepth, parentId: getParentId() };
 
     function getParentId() {

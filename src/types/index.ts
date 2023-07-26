@@ -25,3 +25,13 @@ export interface TreeItem {
 }
 
 export type TreeItems = TreeItem[];
+
+export interface ChildItem {
+    id: string;
+    title: string;
+    parent: null | string;
+    depth: number;
+    collapsed?: boolean;
+}
+
+export type ChildItems = ChildItem[];

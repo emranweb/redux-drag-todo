@@ -34,18 +34,6 @@ const initialItems: TreeItems = [
             { id: 'Spring', children: [] },
             { id: 'Summer', children: [] },
             { id: 'Fall', children: [] },
-            { id: 'Winter', children: [] },
-        ],
-    },
-    {
-        id: 'About Us',
-        children: [],
-    },
-    {
-        id: 'My Account',
-        children: [
-            { id: 'Addresses', children: [] },
-            { id: 'Order History', children: [] },
         ],
     },
 ];
@@ -103,31 +91,31 @@ const Nested = () => {
     function handleDragOver({ over }: DragOverEvent) {
         setOverId(over?.id ?? null);
     }
-
+    console.log('overid', overId);
     function handleDragEnd({ active, over }: DragEndEvent) {
         resetState();
-        // if (projected && over) {
-        //     const { depth, parentId } = projected;
-        //     console.log('projected', projected);
-        //     const clonedItems: FlattenedItem[] = JSON.parse(
-        //         JSON.stringify(flattenTree(items))
-        //     );
+        if (projected && over) {
+            const { depth, parentId } = projected;
+            console.log('projected', projected);
+            const clonedItems: FlattenedItem[] = JSON.parse(
+                JSON.stringify(flattenTree(items))
+            );
 
-        //     const overIndex = clonedItems.findIndex(({ id }) => id === over.id);
-        //     const activeIndex = clonedItems.findIndex(
-        //         ({ id }) => id === active.id
-        //     );
+            const overIndex = clonedItems.findIndex(({ id }) => id === over.id);
+            const activeIndex = clonedItems.findIndex(
+                ({ id }) => id === active.id
+            );
 
-        //     const activeTreeItem = clonedItems[activeIndex];
+            const activeTreeItem = clonedItems[activeIndex];
 
-        //     clonedItems[activeIndex] = { ...activeTreeItem, depth, parentId };
+            clonedItems[activeIndex] = { ...activeTreeItem, depth, parentId };
 
-        //     const sortedItems = arrayMove(clonedItems, activeIndex, overIndex);
+            const sortedItems = arrayMove(clonedItems, activeIndex, overIndex);
 
-        //     const newItems = buildTree(sortedItems);
+            const newItems = buildTree(sortedItems);
 
-        //     setItems(newItems);
-        // }
+            setItems(newItems);
+        }
     }
 
     function resetState() {
@@ -139,6 +127,8 @@ const Nested = () => {
         document.body.style.setProperty('cursor', '');
     }
 
+    console.log(flattenedItems);
+
     const projected =
         activeId && overId
             ? getProjection(
@@ -149,7 +139,7 @@ const Nested = () => {
                   indentationWidth
               )
             : null;
-
+    // console.log(projected);
     return (
         <DndContext
             onDragStart={handleDragStart}
