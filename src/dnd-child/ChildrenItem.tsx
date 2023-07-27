@@ -17,8 +17,17 @@ const ChildrenItem = ({ id, title, collapsed, depth }: ChildItemTypes) => {
         });
 
     const style = { transform: CSS.Transform.toString(transform), transition };
+    const marginLeft = depth ? 40 * depth : 0;
     return (
-        <div style={style} ref={setNodeRef} {...listeners} {...attributes}>
+        <div
+            className={`bg-red-100 p-2 m-2 rounded-sm ${
+                marginLeft ? 'mx-10' : ''
+            }`}
+            style={style}
+            ref={setNodeRef}
+            {...listeners}
+            {...attributes}
+        >
             {title}
         </div>
     );
