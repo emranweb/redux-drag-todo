@@ -1,6 +1,5 @@
 import {
     DndContext,
-    DragEndEvent,
     DragMoveEvent,
     DragOverEvent,
     DragStartEvent,
@@ -44,40 +43,43 @@ const initialItems: ChildItems = [
 ];
 
 const DNDChildren = () => {
-    const [items, setItems] = useState<ChildItems | any[]>(initialItems);
+    const [items, setItems] = useState<ChildItems>(initialItems);
     const [activeId, setActiveId] = useState<string | null | UniqueIdentifier>(
         null
     );
-    const [dragPosition, setDragPosition] = useState<number | null>(0);
+    const [indentWidth, setIndentWidth] = useState<number>(40);
+    const [dragPosition, setDragPosition] = useState<number>(0);
     const [overId, setOverId] = useState<string | null | UniqueIdentifier>(
         null
     );
 
+    // store the active id when the drag starts
     const handleDragStart = (event: DragStartEvent) => {
         const { active } = event;
         setActiveId(active.id);
     };
+
+    // store the drag position
     const handleDragMove = ({ delta }: DragMoveEvent) => {
-        if (delta.x > 48) {
+        if (delta.x > indentWidth) {
             setDragPosition(1);
+            console.log('drag position', delta.x);
         } else {
             setDragPosition(0);
         }
     };
-
+    // create new array after drag ends
     const handleDragOver = (event: DragOverEvent) => {
         const { over } = event;
         setOverId(over?.id ?? null);
     };
 
-    const handleDragEnd = (event: DragEndEvent) => {
-        const activeItem = items.find(item => item.id === activeId);
-        const overItem = items.find(item => item.id === overId);
+    const handleDragEnd = () => {
         const activeItemIndex = items.findIndex(item => item.id === activeId);
         const overItemIndex = items.findIndex(item => item.id === overId);
         const previousItem = items[activeItemIndex - 1];
-        const nextItem = items[activeItemIndex + 1];
-        // parent id
+
+        // calculate parent id
         const parentId = () => {
             if (previousItem && dragPosition === 1) {
                 return previousItem.id;
@@ -85,6 +87,7 @@ const DNDChildren = () => {
                 return null;
             }
         };
+        // create new of items with new position
         const newItems = items.map(item => {
             if (item.id === activeId) {
                 return {
@@ -96,13 +99,13 @@ const DNDChildren = () => {
                 return item;
             }
         });
-
+        // create the new array after chagne the position
         const newItemsArray = arrayMove(
             newItems,
             activeItemIndex,
             overItemIndex
         );
-
+        // set the array to store
         setItems(newItemsArray);
     };
 
@@ -121,6 +124,7 @@ const DNDChildren = () => {
                             id={item.id}
                             depth={item.depth}
                             title={item.title}
+                            indentWidth={indentWidth}
                         />
                     );
                 })}

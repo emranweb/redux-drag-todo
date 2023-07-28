@@ -7,21 +7,23 @@ type ChildItemTypes = {
     id: string;
     title: string;
     collapsed?: boolean;
+    indentWidth: number;
     depth: number;
 };
 
-const ChildrenItem = ({ id, title, collapsed, depth }: ChildItemTypes) => {
+const ChildrenItem = ({ id, title, indentWidth, depth }: ChildItemTypes) => {
     const { transform, attributes, setNodeRef, transition, listeners } =
         useSortable({
             id: id,
         });
 
     const style = { transform: CSS.Transform.toString(transform), transition };
-    const marginLeft = depth ? 40 * depth : 0;
+
+    const marginLeft = depth ? indentWidth * depth : 0;
     return (
         <div
-            className={`bg-red-100 p-2 m-2 rounded-sm ${
-                marginLeft ? 'mx-10' : ''
+            className={`bg-red-100 p-2 m-2 rounded-sm relative ${
+                marginLeft ? 'left-[40px]' : ''
             }`}
             style={style}
             ref={setNodeRef}

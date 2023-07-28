@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import noteImage from '../images/notes.png';
 import { useAppDispatch, useAppSelector } from '../hooks/app';
 import { addTodo, updateTodo } from '../features/todos/todoSlice';
 import { v4 as uuidv4 } from 'uuid';
