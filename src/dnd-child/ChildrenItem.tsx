@@ -1,7 +1,6 @@
 import { useSortable } from '@dnd-kit/sortable';
 import React from 'react';
 import { CSS } from '@dnd-kit/utilities';
-import { ChildItem } from '../types';
 
 type ChildItemTypes = {
     id: string;

@@ -2,6 +2,7 @@ import {
     DndContext,
     DragMoveEvent,
     DragOverEvent,
+    DragOverlay,
     DragStartEvent,
     UniqueIdentifier,
 } from '@dnd-kit/core';
@@ -10,6 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { ChildItems } from '../types';
 import { SortableContext, arrayMove } from '@dnd-kit/sortable';
 import ChildrenItem from './ChildrenItem';
+import { createPortal } from 'react-dom';
 
 const initialItems: ChildItems = [
     {
@@ -128,6 +130,25 @@ const DNDChildren = () => {
                         />
                     );
                 })}
+
+                {createPortal(
+                    <DragOverlay>
+                        {activeId
+                            ? items.map(item =>
+                                  item.id === activeId ? (
+                                      <ChildrenItem
+                                          id={item.id}
+                                          title={item.title}
+                                          key={item.id}
+                                          depth={item.depth}
+                                          indentWidth={indentWidth}
+                                      />
+                                  ) : null
+                              )
+                            : null}
+                    </DragOverlay>,
+                    document.body
+                )}
             </SortableContext>
         </DndContext>
     );
