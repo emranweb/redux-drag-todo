@@ -49,11 +49,18 @@ const DNDChildren = () => {
     const [activeId, setActiveId] = useState<string | null | UniqueIdentifier>(
         null
     );
+    const [collapsed, setCollapsed] = useState<boolean>(false);
     const [indentWidth, setIndentWidth] = useState<number>(40);
     const [dragPosition, setDragPosition] = useState<number>(0);
     const [overId, setOverId] = useState<string | null | UniqueIdentifier>(
         null
     );
+
+    function handleCollapse(id: string): void {
+        if (!id) return;
+        const newItems = items.filter(item => item.parent !== id);
+        console.log(newItems);
+    }
 
     // store the active id when the drag starts
     const handleDragStart = (event: DragStartEvent) => {
@@ -127,6 +134,7 @@ const DNDChildren = () => {
                             depth={item.depth}
                             title={item.title}
                             indentWidth={indentWidth}
+                            handleCollapse={handleCollapse}
                         />
                     );
                 })}
