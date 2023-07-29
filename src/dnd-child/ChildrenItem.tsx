@@ -1,6 +1,7 @@
 import { useSortable } from '@dnd-kit/sortable';
 import React from 'react';
 import { CSS } from '@dnd-kit/utilities';
+import { Handle } from './Handle';
 
 type ChildItemTypes = {
     id: string;
@@ -21,7 +22,7 @@ const ChildrenItem = ({ id, title, indentWidth, depth }: ChildItemTypes) => {
     const marginLeft = depth ? indentWidth * depth : 0;
     return (
         <div
-            className={`bg-red-100 p-2 m-2 rounded-sm relative ${
+            className={`bg-red-100 flex items-center max-w-xs p-2 m-2 rounded-sm relative ${
                 marginLeft ? 'left-[40px]' : ''
             }`}
             style={style}
@@ -29,6 +30,7 @@ const ChildrenItem = ({ id, title, indentWidth, depth }: ChildItemTypes) => {
             {...listeners}
             {...attributes}
         >
+            <Handle ref={setNodeRef} />
             {title}
         </div>
     );

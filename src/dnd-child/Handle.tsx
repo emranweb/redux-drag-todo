@@ -1,9 +1,9 @@
 import React, { ForwardedRef } from 'react';
 import { forwardRef } from 'react';
 
-export const Handle = forwardRef(function Handle(
-    props: null | undefined | any,
-    ref: ForwardedRef<HTMLDivElement> | null
+export const Handle = forwardRef<HTMLDivElement>(function Handle(
+    props,
+    ref: ForwardedRef<HTMLDivElement>
 ) {
     return (
         <div ref={ref}>
