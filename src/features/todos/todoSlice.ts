@@ -7,7 +7,6 @@ const todos: string | null = localStorage.getItem('todos');
 const initialState: TodosArray = JSON.parse(todos || '[]');
 
 // const initialState: string | null = JSON.parse(localStorage.getItem('todos'));
-
 const todosSlice = createSlice({
     name: 'todos',
     initialState,
