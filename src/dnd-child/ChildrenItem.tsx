@@ -39,10 +39,7 @@ const ChildrenItem = ({
         >
             <Handle ref={setNodeRef} />
             {title}
-            <button
-                onClick={() => handleCollapse(id)}
-                className="_2KKbCQhSKJyhMsrU01Xnm7 _3B4PJavUN0slKomrs7UBiy _1yuB6IonqthW0XDve0jXJ"
-            >
+            <button className="_2KKbCQhSKJyhMsrU01Xnm7 _3B4PJavUN0slKomrs7UBiy _1yuB6IonqthW0XDve0jXJ">
                 <svg
                     width="10"
                     xmlns="http://www.w3.org/2000/svg"
