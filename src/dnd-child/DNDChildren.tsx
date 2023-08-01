@@ -57,9 +57,10 @@ const DNDChildren = () => {
     );
 
     function handleCollapse(id: string): void {
-        if (!id) return;
-        const newItems = items.filter(item => item.parent !== id);
-        console.log(newItems);
+        // remove the item from the array
+        const newItems = items.filter(item => item.id !== id);
+        // set the new array
+        setItems(newItems);
     }
 
     // store the active id when the drag starts
@@ -150,6 +151,7 @@ const DNDChildren = () => {
                                           key={item.id}
                                           depth={item.depth}
                                           indentWidth={indentWidth}
+                                          handleCollapse={handleCollapse}
                                       />
                                   ) : null
                               )

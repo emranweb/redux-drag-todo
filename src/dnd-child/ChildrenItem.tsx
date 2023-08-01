@@ -10,7 +10,7 @@ type ChildItemTypes = {
     collapsed?: boolean;
     indentWidth: number;
     depth: number;
-    handleCollapse?: (id: string) => void;
+    handleCollapse: (id: string) => void;
 };
 
 const ChildrenItem = ({
@@ -23,7 +23,6 @@ const ChildrenItem = ({
     const {
         transform,
         attributes,
-        setNodeRef,
         transition,
         listeners,
         setDraggableNodeRef,
@@ -54,7 +53,7 @@ const ChildrenItem = ({
                     {...attributes}
                 />
                 {title}
-                <span onClick={() => console.log('hi')}>
+                <span className="pointer" onClick={() => handleCollapse(id)}>
                     <AiOutlineCloseCircle />
                 </span>
             </div>
