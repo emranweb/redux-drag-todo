@@ -59,10 +59,34 @@ const DNDChildren = () => {
     function handleCollapse(id: string): void {
         // remove the item from the array
         const newItems = items.filter(item => item.id !== id);
-        // set the new array
         setItems(newItems);
     }
 
+    // remove from list
+    const handleRemove = (id: string): void => {
+        const childItem = items.filter(item => item.parent === id);
+        // const parentList = items.filter(item => item.parent !== id);
+        // console.log(parentList);
+        // console.log(childItem);
+        // console.log(items);
+        const cloneArray = [...items];
+        for (let i = 0; i < cloneArray.length; i++) {
+            if (childItem.length > 0) {
+                if (cloneArray[i].id === id) {
+                    cloneArray.splice(i, 1);
+                }
+
+                if (cloneArray[i].parent === id) {
+                    cloneArray.splice(i, childItem.length);
+                }
+            } else {
+                if (cloneArray[i].id === id) {
+                    cloneArray.splice(i, 1);
+                }
+            }
+        }
+        setItems(cloneArray);
+    };
     // store the active id when the drag starts
     const handleDragStart = (event: DragStartEvent) => {
         const { active } = event;
@@ -73,7 +97,6 @@ const DNDChildren = () => {
     const handleDragMove = ({ delta }: DragMoveEvent) => {
         if (delta.x > indentWidth) {
             setDragPosition(1);
-            console.log('drag position', delta.x);
         } else {
             setDragPosition(0);
         }
@@ -92,7 +115,11 @@ const DNDChildren = () => {
         // calculate parent id
         const parentId = () => {
             if (previousItem && dragPosition === 1) {
-                return previousItem.id;
+                if (previousItem.parent === null) {
+                    return previousItem.id;
+                } else {
+                    return previousItem.parent;
+                }
             } else {
                 return null;
             }
@@ -136,6 +163,7 @@ const DNDChildren = () => {
                             title={item.title}
                             indentWidth={indentWidth}
                             handleCollapse={handleCollapse}
+                            handleRemove={handleRemove}
                         />
                     );
                 })}
@@ -152,6 +180,7 @@ const DNDChildren = () => {
                                           depth={item.depth}
                                           indentWidth={indentWidth}
                                           handleCollapse={handleCollapse}
+                                          handleRemove={handleRemove}
                                       />
                                   ) : null
                               )

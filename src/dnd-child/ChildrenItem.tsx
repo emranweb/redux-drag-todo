@@ -11,6 +11,7 @@ type ChildItemTypes = {
     indentWidth: number;
     depth: number;
     handleCollapse: (id: string) => void;
+    handleRemove: (id: string) => void;
 };
 
 const ChildrenItem = ({
@@ -19,6 +20,7 @@ const ChildrenItem = ({
     indentWidth,
     depth,
     handleCollapse,
+    handleRemove,
 }: ChildItemTypes) => {
     const {
         transform,
@@ -53,7 +55,7 @@ const ChildrenItem = ({
                     {...attributes}
                 />
                 {title}
-                <span className="pointer" onClick={() => handleCollapse(id)}>
+                <span className="pointer" onClick={() => handleRemove(id)}>
                     <AiOutlineCloseCircle />
                 </span>
             </div>
