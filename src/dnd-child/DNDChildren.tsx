@@ -58,34 +58,34 @@ const DNDChildren = () => {
 
     function handleCollapse(id: string): void {
         // remove the item from the array
-        const newItems = items.filter(item => item.id !== id);
-        setItems(newItems);
+        console.log('clone item');
     }
 
     // remove from list
     const handleRemove = (id: string): void => {
-        const childItem = items.filter(item => item.parent === id);
-        // const parentList = items.filter(item => item.parent !== id);
-        // console.log(parentList);
-        // console.log(childItem);
-        // console.log(items);
-        const cloneArray = [...items];
-        for (let i = 0; i < cloneArray.length; i++) {
-            if (childItem.length > 0) {
-                if (cloneArray[i].id === id) {
-                    cloneArray.splice(i, 1);
+        // find the id has children or not
+        const hadChildren = items.filter(item => item.parent === id);
+        // clone actual items
+        const cloneItems = [...items];
+        for (let i = 0; i < cloneItems.length; i++) {
+            if (hadChildren.length > 0) {
+                // first remove the selected id
+                if (cloneItems[i].id === id) {
+                    cloneItems.splice(i, 1);
                 }
-
-                if (cloneArray[i].parent === id) {
-                    cloneArray.splice(i, childItem.length);
+                // remove the children of the selected id
+                if (cloneItems[i].parent === id) {
+                    cloneItems.splice(i, hadChildren.length);
                 }
             } else {
-                if (cloneArray[i].id === id) {
-                    cloneArray.splice(i, 1);
+                // remove the selected id that has no children
+                if (cloneItems[i].id === id) {
+                    cloneItems.splice(i, 1);
                 }
             }
         }
-        setItems(cloneArray);
+        // set the clone items to store
+        setItems(cloneItems);
     };
     // store the active id when the drag starts
     const handleDragStart = (event: DragStartEvent) => {
