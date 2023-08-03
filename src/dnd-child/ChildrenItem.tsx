@@ -38,7 +38,7 @@ const ChildrenItem = ({
     const marginLeft = depth ? indentWidth * depth : 0;
     return (
         <div
-            className={`bg-red-100 flex items-center max-w-xs p-2 m-2 rounded-sm relative ${
+            className={`bg-red-100 flex items-center max-w-xs p-2 m-2 rounded-sm relative  ${
                 marginLeft ? 'left-[40px]' : ''
             }`}
             style={style}

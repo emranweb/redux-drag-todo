@@ -4,7 +4,11 @@ import {
     DragOverEvent,
     DragOverlay,
     DragStartEvent,
+    KeyboardSensor,
+    PointerSensor,
     UniqueIdentifier,
+    useSensor,
+    useSensors,
 } from '@dnd-kit/core';
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
@@ -55,6 +59,8 @@ const DNDChildren = () => {
     const [overId, setOverId] = useState<string | null | UniqueIdentifier>(
         null
     );
+
+    const sensors = useSensors(useSensor(PointerSensor));
 
     function handleCollapse(id: string): void {
         // remove the item from the array
