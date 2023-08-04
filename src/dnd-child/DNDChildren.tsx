@@ -49,6 +49,7 @@ const initialItems: ChildItems = [
 ];
 
 const DNDChildren = () => {
+    const [task, setTask] = useState<string>('');
     const [items, setItems] = useState<ChildItems>(initialItems);
     const [activeId, setActiveId] = useState<string | null | UniqueIdentifier>(
         null
@@ -66,6 +67,27 @@ const DNDChildren = () => {
         // remove the item from the array
         console.log('clone item');
     }
+
+    // const handleInputChange =  (e: React.ChangeEvent<HTMLInputElement>) => {
+
+    // }
+
+    const handleInputChange = (
+        e: React.ChangeEvent<HTMLInputElement>
+    ): void => {
+        setTask(e.target.value);
+    };
+    const handleTaskSubmit = (): void => {
+        const newTask = {
+            id: uuidv4(),
+            title: task,
+            depth: 0,
+            parent: null,
+            collapsed: false,
+        };
+        setItems([...items, newTask]);
+        setTask('');
+    };
 
     // remove from list
     const handleRemove = (id: string): void => {
@@ -153,49 +175,60 @@ const DNDChildren = () => {
     };
 
     return (
-        <DndContext
-            onDragStart={handleDragStart}
-            onDragMove={handleDragMove}
-            onDragOver={handleDragOver}
-            onDragEnd={handleDragEnd}
-        >
-            <SortableContext items={items}>
-                {items.map(item => {
-                    return (
-                        <ChildrenItem
-                            key={item.id}
-                            id={item.id}
-                            depth={item.depth}
-                            title={item.title}
-                            indentWidth={indentWidth}
-                            handleCollapse={handleCollapse}
-                            handleRemove={handleRemove}
-                        />
-                    );
-                })}
+        <>
+            <div>
+                <input
+                    className="border m-2 p-2"
+                    onChange={handleInputChange}
+                    type="text"
+                    placeholder="input task"
+                />
+                <button onClick={handleTaskSubmit}>add</button>
+            </div>
+            <DndContext
+                onDragStart={handleDragStart}
+                onDragMove={handleDragMove}
+                onDragOver={handleDragOver}
+                onDragEnd={handleDragEnd}
+            >
+                <SortableContext items={items}>
+                    {items.map(item => {
+                        return (
+                            <ChildrenItem
+                                key={item.id}
+                                id={item.id}
+                                depth={item.depth}
+                                title={item.title}
+                                indentWidth={indentWidth}
+                                handleCollapse={handleCollapse}
+                                handleRemove={handleRemove}
+                            />
+                        );
+                    })}
 
-                {createPortal(
-                    <DragOverlay>
-                        {activeId
-                            ? items.map(item =>
-                                  item.id === activeId ? (
-                                      <ChildrenItem
-                                          id={item.id}
-                                          title={item.title}
-                                          key={item.id}
-                                          depth={item.depth}
-                                          indentWidth={indentWidth}
-                                          handleCollapse={handleCollapse}
-                                          handleRemove={handleRemove}
-                                      />
-                                  ) : null
-                              )
-                            : null}
-                    </DragOverlay>,
-                    document.body
-                )}
-            </SortableContext>
-        </DndContext>
+                    {createPortal(
+                        <DragOverlay>
+                            {activeId
+                                ? items.map(item =>
+                                      item.id === activeId ? (
+                                          <ChildrenItem
+                                              id={item.id}
+                                              title={item.title}
+                                              key={item.id}
+                                              depth={item.depth}
+                                              indentWidth={indentWidth}
+                                              handleCollapse={handleCollapse}
+                                              handleRemove={handleRemove}
+                                          />
+                                      ) : null
+                                  )
+                                : null}
+                        </DragOverlay>,
+                        document.body
+                    )}
+                </SortableContext>
+            </DndContext>
+        </>
     );
 };
 
