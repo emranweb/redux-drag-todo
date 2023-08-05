@@ -12,7 +12,7 @@ import {
 } from '@dnd-kit/core';
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { ChildItems } from '../types';
+import { ChildItem, ChildItems } from '../types';
 import { SortableContext, arrayMove } from '@dnd-kit/sortable';
 import ChildrenItem from './ChildrenItem';
 import { createPortal } from 'react-dom';
@@ -65,12 +65,8 @@ const DNDChildren = () => {
 
     function handleCollapse(id: string): void {
         // remove the item from the array
-        console.log('clone item');
+        console.log(id);
     }
-
-    // const handleInputChange =  (e: React.ChangeEvent<HTMLInputElement>) => {
-
-    // }
 
     const handleInputChange = (
         e: React.ChangeEvent<HTMLInputElement>
@@ -164,15 +160,32 @@ const DNDChildren = () => {
                 return item;
             }
         });
+
+        const parentItem = newItems.filter(item => item.parent)[0];
+
+        const parentCollapse = newItems.map(item => {
+            if (item.id === parentItem.parent) {
+                return {
+                    ...item,
+                    collapsed: true,
+                };
+            } else {
+                return item;
+            }
+        });
+
         // create the new array after chagne the position
         const newItemsArray = arrayMove(
-            newItems,
+            parentCollapse,
             activeItemIndex,
             overItemIndex
         );
+
         // set the array to store
         setItems(newItemsArray);
     };
+
+    // console.log(items);
 
     return (
         <>
@@ -199,6 +212,7 @@ const DNDChildren = () => {
                                 id={item.id}
                                 depth={item.depth}
                                 title={item.title}
+                                collapsed={item.collapsed}
                                 indentWidth={indentWidth}
                                 handleCollapse={handleCollapse}
                                 handleRemove={handleRemove}
@@ -216,6 +230,7 @@ const DNDChildren = () => {
                                               title={item.title}
                                               key={item.id}
                                               depth={item.depth}
+                                              collapsed={item.collapsed}
                                               indentWidth={indentWidth}
                                               handleCollapse={handleCollapse}
                                               handleRemove={handleRemove}

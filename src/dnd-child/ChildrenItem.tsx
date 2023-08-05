@@ -19,6 +19,7 @@ const ChildrenItem = ({
     title,
     indentWidth,
     depth,
+    collapsed,
     handleCollapse,
     handleRemove,
 }: ChildItemTypes) => {
@@ -49,13 +50,17 @@ const ChildrenItem = ({
                 ref={setDraggableNodeRef}
                 className="flex items-center justify-between w-full"
             >
-                {/* <span onClick={() => console.log('hi')}>Remove</span> */}
+                {/* drag handler */}
                 <Handle
                     ref={setDraggableNodeRef}
                     {...listeners}
                     {...attributes}
                 />
+                {collapsed && (
+                    <span onClick={() => handleCollapse(id)}>Collapse</span>
+                )}
                 {title}
+                {/* {Item Remove } */}
                 <span className="pointer" onClick={() => handleRemove(id)}>
                     <AiOutlineCloseCircle />
                 </span>
