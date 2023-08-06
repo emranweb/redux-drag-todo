@@ -1,5 +1,5 @@
-import { useSortable } from '@dnd-kit/sortable';
 import React from 'react';
+import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Handle } from './Handle';
 import { AiOutlineCloseCircle } from 'react-icons/ai';

@@ -4,18 +4,19 @@ import {
     DragOverEvent,
     DragOverlay,
     DragStartEvent,
-    KeyboardSensor,
-    PointerSensor,
     UniqueIdentifier,
-    useSensor,
-    useSensors,
 } from '@dnd-kit/core';
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { ChildItem, ChildItems } from '../types';
+import { ChildItems } from '../types';
 import { SortableContext, arrayMove } from '@dnd-kit/sortable';
 import ChildrenItem from './ChildrenItem';
 import { createPortal } from 'react-dom';
+
+/**
+ * @type {ChildItems}
+ * @returns []
+ * */
 
 const initialItems: ChildItems = [
     {
@@ -58,13 +59,17 @@ const DNDChildren = () => {
     const [activeId, setActiveId] = useState<string | null | UniqueIdentifier>(
         null
     );
-    const [collapsed, setCollapsed] = useState<boolean>(false);
-    const [indentWidth, setIndentWidth] = useState<number>(40);
+    const [indentWidth] = useState<number>(40);
     const [dragPosition, setDragPosition] = useState<number>(0);
     const [overId, setOverId] = useState<string | null | UniqueIdentifier>(
         null
     );
 
+    /**
+     * @param {string} id
+     * @override {Set New Items with item collapsed=true}
+     * @returns {void}
+     */
     function handleCollapse(id: string): void {
         // remove the item from the array
         const newCollapsedItem = items.map(item => {
@@ -81,11 +86,16 @@ const DNDChildren = () => {
         setItems(newCollapsedItem);
     }
 
+    /**
+     *
+     * @param {React.ChangeEvent<HTMLInputElement>} event
+     */
     const handleInputChange = (
         e: React.ChangeEvent<HTMLInputElement>
     ): void => {
         setTask(e.target.value);
     };
+
     const handleTaskSubmit = (): void => {
         const newTask = {
             id: uuidv4(),
@@ -175,7 +185,7 @@ const DNDChildren = () => {
             }
         });
 
-        const parentItem = newItems.filter(item => item.parent)[0];
+        const parentItem = newItems.filter(item => item.id === activeId)[0];
 
         const parentCollapse = newItems.map(item => {
             if (item.id === parentItem.parent) {
@@ -198,8 +208,6 @@ const DNDChildren = () => {
         // set the array to store
         setItems(newItemsArray);
     };
-
-    console.log(items);
 
     return (
         <>

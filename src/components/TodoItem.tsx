@@ -1,17 +1,11 @@
 import React from 'react';
-// import { useDispatch } from 'react-redux';
-import cancleImage from '../images/cancel.png';
-
-// import { colorChange, deleteTodo } from '../redux/thunk/todoFetch';
-import noteImage from '../images/notes.png';
-//import { todoToggle } from '../redux/rtk-todo/todo';
 import { Todo } from '../types/index';
-import {
-    removeFromTodos,
-    todoMarkCompleted,
-    updateTodo,
-} from '../features/todos/todoSlice';
-import { useAppDispatch } from '../hooks/app';
+// import {
+//     removeFromTodos,
+//     todoMarkCompleted,
+//     updateTodo,
+// } from '../features/todos/todoSlice';
+// import { useAppDispatch } from '../hooks/app';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 interface TodoItemProps {
@@ -25,22 +19,22 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
             id: id,
         });
 
-    const dispatch = useAppDispatch();
+    // const dispatch = useAppDispatch();
 
     // handle todo completed and imcomplete
-    const handleChange = (id: number) => {
-        dispatch(todoMarkCompleted(id));
-    };
+    // const handleChange = (id: number) => {
+    //     dispatch(todoMarkCompleted(id));
+    // };
 
     //handle cancle task
-    const handleRemove = (id: number) => {
-        dispatch(removeFromTodos(id));
-    };
+    // const handleRemove = (id: number) => {
+    //     dispatch(removeFromTodos(id));
+    // };
 
-    const handleUpdate = (id: number): void => {
-        dispatch(updateTodo({ id: id }));
-        console.log('hi');
-    };
+    // const handleUpdate = (id: number): void => {
+    //     dispatch(updateTodo({ id: id }));
+    //     console.log('hi');
+    // };
 
     const style = { transform: CSS.Transform.toString(transform), transition };
 
