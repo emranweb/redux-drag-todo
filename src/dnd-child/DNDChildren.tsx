@@ -24,6 +24,7 @@ const initialItems: ChildItems = [
         depth: 0,
         parent: null,
         collapsed: false,
+        collapsedItem: false,
     },
     {
         id: uuidv4(),
@@ -31,6 +32,7 @@ const initialItems: ChildItems = [
         depth: 0,
         parent: null,
         collapsed: false,
+        collapsedItem: false,
     },
     {
         id: uuidv4(),
@@ -38,6 +40,7 @@ const initialItems: ChildItems = [
         depth: 0,
         parent: null,
         collapsed: false,
+        collapsedItem: false,
     },
     {
         id: uuidv4(),
@@ -45,6 +48,7 @@ const initialItems: ChildItems = [
         depth: 0,
         parent: null,
         collapsed: false,
+        collapsedItem: false,
     },
 ];
 
@@ -61,11 +65,20 @@ const DNDChildren = () => {
         null
     );
 
-    const sensors = useSensors(useSensor(PointerSensor));
-
     function handleCollapse(id: string): void {
         // remove the item from the array
-        console.log(id);
+        const newCollapsedItem = items.map(item => {
+            if (item.parent === id) {
+                return {
+                    ...item,
+                    collapsedItem: !item.collapsedItem,
+                };
+            } else {
+                return item;
+            }
+        });
+
+        setItems(newCollapsedItem);
     }
 
     const handleInputChange = (
@@ -80,6 +93,7 @@ const DNDChildren = () => {
             depth: 0,
             parent: null,
             collapsed: false,
+            collapsedItem: false,
         };
         setItems([...items, newTask]);
         setTask('');
@@ -185,7 +199,7 @@ const DNDChildren = () => {
         setItems(newItemsArray);
     };
 
-    // console.log(items);
+    console.log(items);
 
     return (
         <>
@@ -213,6 +227,7 @@ const DNDChildren = () => {
                                 depth={item.depth}
                                 title={item.title}
                                 collapsed={item.collapsed}
+                                collapsedItem={item.collapsedItem}
                                 indentWidth={indentWidth}
                                 handleCollapse={handleCollapse}
                                 handleRemove={handleRemove}
@@ -234,6 +249,7 @@ const DNDChildren = () => {
                                               indentWidth={indentWidth}
                                               handleCollapse={handleCollapse}
                                               handleRemove={handleRemove}
+                                              collapsedItem={item.collapsedItem}
                                           />
                                       ) : null
                                   )

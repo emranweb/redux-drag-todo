@@ -32,6 +32,7 @@ export interface ChildItem {
     parent: null | string;
     depth: number;
     collapsed?: boolean;
+    collapsedItem?: boolean;
 }
 
 export type ChildItems = ChildItem[];
