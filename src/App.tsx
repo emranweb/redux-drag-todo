@@ -9,8 +9,9 @@ function App() {
         <div className="App">
             <div className="  px-6 font-sans">
                 <Navbar />
-                <KanbanTodos />
+                {/* <KanbanTodos /> */}
                 <DNDChildren />
+                <button className="btn btn-neutral">Neutral</button>
             </div>
         </div>
     );
