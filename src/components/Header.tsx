@@ -60,17 +60,23 @@ const Header = () => {
                 }`}
                 onSubmit={handleSubmit}
             >
-                <input
+                {/* <input
                     type="text"
                     value={data.value}
                     onChange={handleInputChange}
                     placeholder="Type your todo"
                     className="w-full text-lg px-4 py-1 border-none outline-none bg-gray-100 text-gray-500"
+                /> */}
+                <input
+                    type="text"
+                    placeholder="Type here"
+                    className="input input-bordered w-full max-w-xs"
                 />
-                <button
+                {/* <button
                     type="submit"
                     className="appearance-none w-8 h-8 bg-[url('./images/plus.png')] bg-no-repeat bg-contain"
-                ></button>
+                ></button> */}
+                <button className="btn btn-primary">Helo World</button>
             </form>
 
             {/* <ul className="flex justify-between my-4 text-xs text-gray-500">
