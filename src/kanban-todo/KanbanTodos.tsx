@@ -67,9 +67,7 @@ const KanbanTodos = () => {
                     setActiveId(active.id);
                 }}
             >
-                <div className="w-full  shadow-lg rounded-lg p-6 bg-white mt-40">
-                    <Header />
-                </div>
+                <Header />
 
                 <div className="flex gap-4 m-4">
                     <SortableContext

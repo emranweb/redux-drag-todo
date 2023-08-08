@@ -29,8 +29,9 @@ export type TreeItems = TreeItem[];
 export interface ChildItem {
     id: string;
     title: string;
-    parent: null | string;
+    parent?: null | string;
     depth: number;
+    indentWidth?: number | undefined;
     collapsed?: boolean;
     collapsedItem?: boolean;
 }

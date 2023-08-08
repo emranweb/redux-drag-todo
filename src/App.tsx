@@ -7,11 +7,10 @@ import DNDChildren from './dnd-child/DNDChildren';
 function App() {
     return (
         <div className="App">
-            <div className="  px-6 font-sans">
+            <div className="font-sans">
                 <Navbar />
-                {/* <KanbanTodos /> */}
+                <KanbanTodos />
                 <DNDChildren />
-                <button className="btn btn-neutral">Neutral</button>
             </div>
         </div>
     );

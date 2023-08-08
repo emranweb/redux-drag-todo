@@ -51,15 +51,8 @@ const Header = () => {
     };
 
     return (
-        <div>
-            <form
-                className={`flex items-center bg-gray-100 px-3 py-3 rounded-md ${
-                    data.value === ''
-                        ? 'border border-red-400'
-                        : 'border border-green-400'
-                }`}
-                onSubmit={handleSubmit}
-            >
+        <div className="w-1/2 mx-auto mt-4">
+            <form onSubmit={handleSubmit} className="flex">
                 {/* <input
                     type="text"
                     value={data.value}
@@ -70,13 +63,14 @@ const Header = () => {
                 <input
                     type="text"
                     placeholder="Type here"
-                    className="input input-bordered w-full max-w-xs"
+                    onChange={handleInputChange}
+                    className="input input-bordered w-full"
                 />
                 {/* <button
                     type="submit"
                     className="appearance-none w-8 h-8 bg-[url('./images/plus.png')] bg-no-repeat bg-contain"
                 ></button> */}
-                <button className="btn btn-primary">Helo World</button>
+                <button className="btn btn-primary ml-4">Add New Task</button>
             </form>
 
             {/* <ul className="flex justify-between my-4 text-xs text-gray-500">

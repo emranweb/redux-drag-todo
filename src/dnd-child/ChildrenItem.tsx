@@ -3,17 +3,13 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Handle } from './Handle';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
+import { BiCollapseAlt } from 'react-icons/bi';
+import { ChildItem } from '../types';
 
-type ChildItemTypes = {
-    id: string;
-    title: string;
-    collapsed?: boolean;
-    indentWidth: number;
-    depth: number;
-    collapsedItem?: boolean;
+interface ChildItemTypes extends ChildItem {
     handleCollapse: (id: string) => void;
     handleRemove: (id: string) => void;
-};
+}
 
 const ChildrenItem = ({
     id,
@@ -39,16 +35,14 @@ const ChildrenItem = ({
 
     const style = { transform: CSS.Transform.toString(transform), transition };
 
-    const marginLeft = depth ? indentWidth * depth : 0;
+    const marginLeft = depth && indentWidth ? indentWidth * depth : 0;
     return (
         <div
-            className={`bg-red-100 flex items-center max-w-xs p-2 m-2 rounded-sm relative transition-all ${
+            className={`bg-primary text-white flex p-4  items-center w-1/2 mx-auto my-2 rounded-lg relative transition-all ${
                 isDragging ? 'opacity-5' : 'opacity-100'
-            } ${
-                collapsedItem
-                    ? 'opacity-0 invisible p-0 m-0 h-0'
-                    : 'opacity-1 visible h-100'
-            }  ${marginLeft ? 'left-[40px]' : ''}`}
+            } ${collapsedItem ? 'hidden' : 'block'}  ${
+                marginLeft ? 'left-[40px]' : ''
+            }`}
             style={style}
             ref={setDroppableNodeRef}
         >
@@ -63,7 +57,9 @@ const ChildrenItem = ({
                     {...attributes}
                 />
                 {collapsed && (
-                    <span onClick={() => handleCollapse(id)}>Collapse</span>
+                    <span onClick={() => handleCollapse(id)}>
+                        <BiCollapseAlt />
+                    </span>
                 )}
                 {title}
                 {/* {Item Remove } */}

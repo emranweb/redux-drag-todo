@@ -211,14 +211,17 @@ const DNDChildren = () => {
 
     return (
         <>
-            <div>
+            <div className="flex w-1/2 mx-auto">
                 <input
                     type="text"
                     name="first-name"
                     id="first-name"
-                    className="input input-bordered input-primary"
+                    className="input input-bordered input-primary w-full"
                 />
-                <button className="btn btn-primary" onClick={handleTaskSubmit}>
+                <button
+                    className="btn btn-primary ml-4"
+                    onClick={handleTaskSubmit}
+                >
                     Add New Task
                 </button>
             </div>
