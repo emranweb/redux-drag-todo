@@ -44,24 +44,24 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
             {...listeners}
             {...attributes}
             style={style}
-            className={`flex justify-start items-center p-2   space-x-4 border-b border-gray-400/20 last:border-0  rounded-lg mb-2 ${
-                status === 'done' ? 'bg-green-300' : ''
-            } ${status === 'inprogress' ? 'bg-yellow-300' : ''} ${
-                status === 'backlog' ? 'bg-red-100' : ''
+            className={`flex justify-start items-center p-4 text-white  space-x-4 border-b border-gray-400/20 last:border-0  rounded-lg mb-2 ${
+                status === 'done' ? 'bg-success' : ''
+            } ${status === 'inprogress' ? 'bg-warning' : ''} ${
+                status === 'backlog' ? 'bg-primary' : ''
             } `}
         >
-            <div
+            {/* <div
                 className={`rounded-full bg-white border-2  w-5 h-5 flex flex-shrink-0 justify-center items-center   ${
                     completed ? 'bg-green-500' : 'bg-gray-400'
                 }`}
             >
-                {/* <input
+                 <input
                     type="checkbox"
                     checked={completed}
                     className="opacity-0 absolute rounded-full"
                     onChange={() => handleChange(id)}
-                /> */}
-            </div>
+                /> 
+            </div> */}
 
             <div className={`select-none flex flex-1`}>
                 {title}

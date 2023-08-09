@@ -11,6 +11,7 @@ const BacklogTodo = ({ children }: { children: React.ReactNode }) => {
             ref={setNodeRef}
         >
             <h4>Backlog</h4>
+            <div className="divider"></div>
             {children}
         </div>
     );

@@ -11,6 +11,7 @@ const InProgressTodo = ({ children }: { children: React.ReactNode }) => {
             ref={setNodeRef}
         >
             <h4>In Progess</h4>
+            <div className="divider"></div>
             {children}
         </div>
     );

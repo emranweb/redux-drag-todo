@@ -9,7 +9,7 @@ import { Todo } from '../types';
 
 const TodoList = ({ todos }: { todos: Todo[] }) => {
     return (
-        <div className="mt-2 text-gray-700 text-sm h-32">
+        <div className="mt-6 text-gray-700 text-sm h-32">
             {todos.map(item => (
                 <TodoItem key={item.id} todo={item} />
             ))}

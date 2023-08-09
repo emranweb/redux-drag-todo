@@ -11,6 +11,7 @@ const CompletedTodo = ({ children }: { children: React.ReactNode }) => {
             ref={setNodeRef}
         >
             <h4>Completed</h4>
+            <div className="divider"></div>
             {children}
         </div>
     );
