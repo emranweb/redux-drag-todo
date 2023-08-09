@@ -50,19 +50,6 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
                 status === 'backlog' ? 'bg-primary' : ''
             } `}
         >
-            {/* <div
-                className={`rounded-full bg-white border-2  w-5 h-5 flex flex-shrink-0 justify-center items-center   ${
-                    completed ? 'bg-green-500' : 'bg-gray-400'
-                }`}
-            >
-                 <input
-                    type="checkbox"
-                    checked={completed}
-                    className="opacity-0 absolute rounded-full"
-                    onChange={() => handleChange(id)}
-                /> 
-            </div> */}
-
             <div className={`select-none flex flex-1`}>
                 {title}
                 <div className="w-3 h-3 mt-[6px] mx-4"></div>
