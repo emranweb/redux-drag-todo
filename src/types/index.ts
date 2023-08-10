@@ -7,12 +7,14 @@ export interface Todo {
     dueDate: string;
     priority: 'high' | 'medium' | 'low';
     completed: boolean;
-    status: 'backlog' | 'inprogress' | 'done';
+    status: 'backlog' | 'inprogress' | 'complete';
 }
 
 export interface Todos {
     todos: Todo[];
 }
+
+export const CartTitle: string[] = ['backlog', 'inprogress', 'complete'];
 
 export const ItemTypes = {
     TODO: 'todo',

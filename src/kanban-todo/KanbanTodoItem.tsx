@@ -23,7 +23,7 @@ const KanbanTodoItem: React.FC<TodoItemProps> = ({ todo }) => {
             {...attributes}
             style={style}
             className={`flex justify-start items-center p-4 text-white  space-x-4 border-b border-gray-400/20 last:border-0  rounded-lg mb-2 ${
-                status === 'done' ? 'bg-success' : ''
+                status === 'complete' ? 'bg-success' : ''
             } ${status === 'inprogress' ? 'bg-warning' : ''} ${
                 status === 'backlog' ? 'bg-primary' : ''
             } `}

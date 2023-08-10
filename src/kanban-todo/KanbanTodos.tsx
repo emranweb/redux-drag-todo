@@ -18,14 +18,17 @@ import TodoItem from '../components/TodoItem';
 import InProgressTodo from '../components/InProgressTodo';
 import CompletedTodo from '../components/CompletedTodo';
 import { createPortal } from 'react-dom';
+import { CartTitle } from '../types';
+import KanbanTodoList from './KanbanTodoList';
 
 const KanbanTodos = () => {
     const allTodos = useAppSelector(state => state.todos);
+    const [cartTitle, setCartTitle] = useState<string[]>(CartTitle);
     const backlogTodos = allTodos.filter(todo => todo.status === 'backlog');
     const inCompletedTodos = allTodos.filter(
         todo => todo.status === 'inprogress'
     );
-    const completedTodos = allTodos.filter(todo => todo.status === 'done');
+    const completedTodos = allTodos.filter(todo => todo.status === 'complete');
     const [activeId, setActiveId] = useState<number | string | null>(null);
     const dispatach = useAppDispatch();
 
@@ -47,13 +50,13 @@ const KanbanTodos = () => {
                 dispatach(changeIndex(newTodos));
             }
         } else {
-            if (overContainer === 'backlog-sortable') {
+            if (overContainer === 'backlog') {
                 dispatach(todoMarkBacklog(active.id));
             }
-            if (overContainer === 'inprogress-sortable') {
+            if (overContainer === 'inprogress') {
                 dispatach(todoMarkInProgess(active.id));
             }
-            if (overContainer === 'completed-sortable') {
+            if (overContainer === 'complete') {
                 dispatach(todoMarkCompleted(active.id));
             }
         }
@@ -70,40 +73,27 @@ const KanbanTodos = () => {
                 <Header />
 
                 <div className="flex gap-4 m-4">
-                    <SortableContext
-                        id="backlog-sortable"
-                        items={backlogTodos}
-                        strategy={rectSortingStrategy}
-                    >
-                        <BacklogTodo>
-                            {backlogTodos.map(item => (
-                                <TodoItem key={item.id} todo={item} />
-                            ))}
-                        </BacklogTodo>
-                    </SortableContext>
-                    <SortableContext
-                        id="inprogress-sortable"
-                        items={inCompletedTodos}
-                        strategy={rectSortingStrategy}
-                    >
-                        <InProgressTodo>
-                            {inCompletedTodos.map(item => (
-                                <TodoItem key={item.id} todo={item} />
-                            ))}
-                        </InProgressTodo>
-                    </SortableContext>
-
-                    <SortableContext
-                        id="completed-sortable"
-                        items={completedTodos}
-                        strategy={rectSortingStrategy}
-                    >
-                        <CompletedTodo>
-                            {completedTodos.map(item => (
-                                <TodoItem key={item.id} todo={item} />
-                            ))}
-                        </CompletedTodo>
-                    </SortableContext>
+                    {cartTitle.map(item => {
+                        return (
+                            <SortableContext
+                                key={item}
+                                id={item}
+                                items={allTodos}
+                                strategy={rectSortingStrategy}
+                            >
+                                <KanbanTodoList id={item}>
+                                    {allTodos
+                                        .filter(a => a.status === item)
+                                        .map(item => (
+                                            <TodoItem
+                                                key={item.id}
+                                                todo={item}
+                                            />
+                                        ))}
+                                </KanbanTodoList>
+                            </SortableContext>
+                        );
+                    })}
                 </div>
                 {createPortal(
                     <DragOverlay>

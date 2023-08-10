@@ -22,7 +22,7 @@ const todosSlice = createSlice({
                     return {
                         ...todo,
                         completed: !todo.completed,
-                        status: 'done',
+                        status: 'complete',
                     };
                 }
                 return todo;
