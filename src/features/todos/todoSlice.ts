@@ -1,12 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Todo } from '../../types/index';
-
-type TodosArray = Todo[];
+import { Todos } from '../../types/index';
 
 const todos: string | null = localStorage.getItem('todos');
-const initialState: TodosArray = JSON.parse(todos || '[]');
+const initialState: Todos = JSON.parse(todos || '[]');
 
-// const initialState: string | null = JSON.parse(localStorage.getItem('todos'));
 const todosSlice = createSlice({
     name: 'todos',
     initialState,

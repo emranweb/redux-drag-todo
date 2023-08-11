@@ -13,22 +13,13 @@ import {
     todoMarkInProgess,
 } from '../features/todos/todoSlice';
 import Header from '../components/Header';
-import BacklogTodo from '../components/BacklogTodo';
 import TodoItem from '../components/TodoItem';
-import InProgressTodo from '../components/InProgressTodo';
-import CompletedTodo from '../components/CompletedTodo';
 import { createPortal } from 'react-dom';
-import { CartTitle } from '../types';
 import KanbanTodoList from './KanbanTodoList';
 
 const KanbanTodos = () => {
     const allTodos = useAppSelector(state => state.todos);
-    const [cartTitle, setCartTitle] = useState<string[]>(CartTitle);
-    const backlogTodos = allTodos.filter(todo => todo.status === 'backlog');
-    const inCompletedTodos = allTodos.filter(
-        todo => todo.status === 'inprogress'
-    );
-    const completedTodos = allTodos.filter(todo => todo.status === 'complete');
+    const [cartTitle] = useState<string>();
     const [activeId, setActiveId] = useState<number | string | null>(null);
     const dispatach = useAppDispatch();
 

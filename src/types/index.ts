@@ -1,36 +1,22 @@
 import { UniqueIdentifier } from '@dnd-kit/core';
 
+export type todoStatus = 'backlog' | 'inprogress' | 'complete';
+export type priority = 'high' | 'medium' | 'low';
+
+/**
+ *
+ *
+ * @export
+ * @interface Todo
+ */
 export interface Todo {
-    id: number;
-    title: string;
-    edit: boolean;
-    dueDate: string;
-    priority: 'high' | 'medium' | 'low';
-    completed: boolean;
-    status: 'backlog' | 'inprogress' | 'complete';
-}
-
-export interface Todos {
-    todos: Todo[];
-}
-
-export const CartTitle: string[] = ['backlog', 'inprogress', 'complete'];
-
-export const ItemTypes = {
-    TODO: 'todo',
-};
-
-export interface TreeItem {
-    id: UniqueIdentifier;
-    children: TreeItem[];
-    collapsed?: boolean;
-}
-
-export type TreeItems = TreeItem[];
-
-export interface ChildItem {
     id: string;
     title: string;
+    edit: boolean;
+    dueDate?: string;
+    priority?: priority;
+    completed?: boolean;
+    status: todoStatus;
     parent?: null | string;
     depth: number;
     indentWidth?: number | undefined;
@@ -38,4 +24,12 @@ export interface ChildItem {
     collapsedItem?: boolean;
 }
 
-export type ChildItems = ChildItem[];
+/**
+ *
+ *
+ * @export
+ * @property {Todo}
+ * @interface Todos
+ */
+
+export type Todos = Todo[];
