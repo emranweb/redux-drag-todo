@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Todos } from '../../types/index';
+import { Todos } from '../../types';
 
-const todos: string | null = localStorage.getItem('todos');
-const initialState: Todos = JSON.parse(todos || '[]');
+const getLocalStorageTodos: string | null = localStorage.getItem('todos');
+const initialState: Todos = JSON.parse(getLocalStorageTodos || '[]');
 
 const todosSlice = createSlice({
     name: 'todos',
@@ -14,7 +14,7 @@ const todosSlice = createSlice({
             return data;
         },
         todoMarkCompleted: (state, action) => {
-            const data: TodosArray = state.map(todo => {
+            const data: Todos = state.map(todo => {
                 if (todo.id === action.payload) {
                     return {
                         ...todo,
@@ -28,7 +28,7 @@ const todosSlice = createSlice({
             return data;
         },
         todoMarkInProgess: (state, action) => {
-            const data: TodosArray = state.map(todo => {
+            const data: Todos = state.map(todo => {
                 if (todo.id === action.payload) {
                     return { ...todo, completed: false, status: 'inprogress' };
                 }
@@ -38,7 +38,7 @@ const todosSlice = createSlice({
             return data;
         },
         todoMarkBacklog: (state, action) => {
-            const data: TodosArray = state.map(todo => {
+            const data: Todos = state.map(todo => {
                 if (todo.id === action.payload) {
                     return { ...todo, completed: false, status: 'backlog' };
                 }
@@ -50,7 +50,7 @@ const todosSlice = createSlice({
         updateTodo: (state, action) => {
             const { title } = action.payload;
             if (title) {
-                const data: TodosArray = state.map(todo => {
+                const data: Todos = state.map(todo => {
                     if (todo.id === action.payload.id) {
                         return {
                             ...todo,
@@ -63,7 +63,7 @@ const todosSlice = createSlice({
                 localStorage.setItem('todos', JSON.stringify(data));
                 return data;
             } else {
-                const data: TodosArray = state.map(todo => {
+                const data: Todos = state.map(todo => {
                     if (todo.id === action.payload.id) {
                         return { ...todo, edit: !todo.edit };
                     }
