@@ -1,5 +1,17 @@
-export type todoStatus = 'backlog' | 'inprogress' | 'complete';
+// export type todoStatus = 'backlog' | 'inprogress' | 'complete';
 export type priority = 'high' | 'medium' | 'low';
+
+/**
+ *
+ *
+ * @export
+ * @enum {number}
+ */
+export enum todoStatus {
+    backlog = 'backlog',
+    inprogress = 'inprogress',
+    complete = 'complete',
+}
 
 /**
  * @interface {};
@@ -30,6 +42,7 @@ export interface Todo {
     indentWidth?: number | undefined;
     collapsed?: boolean;
     collapsedItem?: boolean;
+    date?: string | Date;
 }
 
 /**

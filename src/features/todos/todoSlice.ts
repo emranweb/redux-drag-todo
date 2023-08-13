@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Todos } from '../../types';
+import { Todos, todoStatus } from '../../types';
 
 const getLocalStorageTodos: string | null = localStorage.getItem('todos');
 const initialState: Todos = JSON.parse(getLocalStorageTodos || '[]');
@@ -9,38 +9,49 @@ const todosSlice = createSlice({
     initialState,
     reducers: {
         addTodo: (state, action) => {
-            const data = [...state, action.payload];
-            localStorage.setItem('todos', JSON.stringify(data));
-            return data;
+            const stateWithNewTodo = [...state, action.payload];
+            localStorage.setItem('todos', JSON.stringify(stateWithNewTodo));
+            return stateWithNewTodo;
         },
         todoMarkCompleted: (state, action) => {
-            const data: Todos = state.map(todo => {
+            const updateTodoAsComplete: Todos = state.map(todo => {
                 if (todo.id === action.payload) {
                     return {
                         ...todo,
                         completed: !todo.completed,
-                        status: 'complete',
+                        status: todoStatus.complete,
                     };
                 }
                 return todo;
             });
-            localStorage.setItem('todos', JSON.stringify(data));
-            return data;
+            localStorage.setItem('todos', JSON.stringify(updateTodoAsComplete));
+            return updateTodoAsComplete;
         },
         todoMarkInProgess: (state, action) => {
-            const data: Todos = state.map(todo => {
+            const updateTodoAsInProgress: Todos = state.map(todo => {
                 if (todo.id === action.payload) {
-                    return { ...todo, completed: false, status: 'inprogress' };
+                    return {
+                        ...todo,
+                        completed: false,
+                        status: todoStatus.inprogress,
+                    };
                 }
                 return todo;
             });
-            localStorage.setItem('todos', JSON.stringify(data));
-            return data;
+            localStorage.setItem(
+                'todos',
+                JSON.stringify(updateTodoAsInProgress)
+            );
+            return updateTodoAsInProgress;
         },
         todoMarkBacklog: (state, action) => {
             const data: Todos = state.map(todo => {
                 if (todo.id === action.payload) {
-                    return { ...todo, completed: false, status: 'backlog' };
+                    return {
+                        ...todo,
+                        completed: false,
+                        status: todoStatus.backlog,
+                    };
                 }
                 return todo;
             });
@@ -50,7 +61,7 @@ const todosSlice = createSlice({
         updateTodo: (state, action) => {
             const { title } = action.payload;
             if (title) {
-                const data: Todos = state.map(todo => {
+                const updateTodoTitle: Todos = state.map(todo => {
                     if (todo.id === action.payload.id) {
                         return {
                             ...todo,
@@ -60,8 +71,8 @@ const todosSlice = createSlice({
                     }
                     return { ...todo, edit: false };
                 });
-                localStorage.setItem('todos', JSON.stringify(data));
-                return data;
+                localStorage.setItem('todos', JSON.stringify(updateTodoTitle));
+                return updateTodoTitle;
             } else {
                 const data: Todos = state.map(todo => {
                     if (todo.id === action.payload.id) {
@@ -74,9 +85,11 @@ const todosSlice = createSlice({
             }
         },
         removeFromTodos: (state, action) => {
-            const data = state.filter(todo => todo.id !== action.payload);
-            localStorage.setItem('todos', JSON.stringify(data));
-            return data;
+            const filterTodos = state.filter(
+                todo => todo.id !== action.payload
+            );
+            localStorage.setItem('todos', JSON.stringify(filterTodos));
+            return filterTodos;
         },
         changeIndex: (state, action) => {
             const newTodos = action.payload;

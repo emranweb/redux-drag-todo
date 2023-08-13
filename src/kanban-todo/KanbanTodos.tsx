@@ -16,10 +16,11 @@ import Header from '../components/Header';
 import TodoItem from '../components/TodoItem';
 import { createPortal } from 'react-dom';
 import KanbanTodoList from './KanbanTodoList';
+import { todoStatus } from '../types';
 
 const KanbanTodos = () => {
     const allTodos = useAppSelector(state => state.todos);
-    const [cartTitle] = useState<string>();
+    const [todoContainerTitle] = useState<string[]>(Object.values(todoStatus));
     const [activeId, setActiveId] = useState<number | string | null>(null);
     const dispatach = useAppDispatch();
 
@@ -41,13 +42,13 @@ const KanbanTodos = () => {
                 dispatach(changeIndex(newTodos));
             }
         } else {
-            if (overContainer === 'backlog') {
+            if (overContainer === todoStatus.backlog) {
                 dispatach(todoMarkBacklog(active.id));
             }
-            if (overContainer === 'inprogress') {
+            if (overContainer === todoStatus.inprogress) {
                 dispatach(todoMarkInProgess(active.id));
             }
-            if (overContainer === 'complete') {
+            if (overContainer === todoStatus.complete) {
                 dispatach(todoMarkCompleted(active.id));
             }
         }
@@ -64,7 +65,7 @@ const KanbanTodos = () => {
                 <Header />
 
                 <div className="flex gap-4 m-4">
-                    {cartTitle.map(item => {
+                    {todoContainerTitle.map(item => {
                         return (
                             <SortableContext
                                 key={item}

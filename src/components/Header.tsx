@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/app';
 import { addTodo, updateTodo } from '../features/todos/todoSlice';
 import { v4 as uuidv4 } from 'uuid';
+import { todoStatus } from '../types';
 
 const Header = () => {
     const todos = useAppSelector(state => state.todos);
@@ -24,6 +25,19 @@ const Header = () => {
         setData({ value: event.target.value });
     };
 
+    // id: string;
+    // title: string;
+    // edit: boolean;
+    // dueDate?: string;
+    // priority?: priority;
+    // completed?: boolean;
+    // status: todoStatus;
+    // parent?: null | string;
+    // depth: number;
+    // indentWidth?: number | undefined;
+    // collapsed?: boolean;
+    // collapsedItem?: boolean;
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
         if (!data.value) return;
@@ -41,7 +55,10 @@ const Header = () => {
                     edit: false,
                     title: data.value,
                     completed: false,
-                    status: 'backlog',
+                    status: todoStatus.backlog,
+                    parent: null,
+                    depth: 0,
+                    date: new Date(),
                 })
             );
         }

@@ -16,7 +16,7 @@ const KanbanTodoList = ({
             className="w-full max-w-3xl shadow-lg rounded-lg p-6 bg-white"
             ref={setNodeRef}
         >
-            <h4>{id}</h4>
+            <h4 className="capitalize text-xl font-medium">{id}</h4>
             <div className="divider"></div>
             {children}
         </div>
