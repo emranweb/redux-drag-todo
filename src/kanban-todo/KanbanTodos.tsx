@@ -12,11 +12,10 @@ import {
     todoMarkCompleted,
     todoMarkInProgess,
 } from '../features/todos/todoSlice';
-import Header from '../components/Header';
-import TodoItem from '../components/TodoItem';
 import { createPortal } from 'react-dom';
 import KanbanTodoList from './KanbanTodoList';
 import { todoStatus } from '../types';
+import KanbanTodoItem from './KanbanTodoItem';
 
 const KanbanTodos = () => {
     const allTodos = useAppSelector(state => state.todos);
@@ -62,8 +61,6 @@ const KanbanTodos = () => {
                     setActiveId(active.id);
                 }}
             >
-                <Header />
-
                 <div className="flex gap-4 m-4">
                     {todoContainerTitle.map(item => {
                         return (
@@ -77,7 +74,7 @@ const KanbanTodos = () => {
                                     {allTodos
                                         .filter(a => a.status === item)
                                         .map(item => (
-                                            <TodoItem
+                                            <KanbanTodoItem
                                                 key={item.id}
                                                 todo={item}
                                             />
@@ -90,7 +87,7 @@ const KanbanTodos = () => {
                 {createPortal(
                     <DragOverlay>
                         {activeId ? (
-                            <TodoItem
+                            <KanbanTodoItem
                                 todo={
                                     allTodos.filter(
                                         item => item.id === activeId

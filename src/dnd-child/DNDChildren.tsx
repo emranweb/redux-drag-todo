@@ -13,41 +13,6 @@ import { useAppDispatch, useAppSelector } from '../hooks/app';
 import ChildrenItem from './ChildrenItem';
 import { updateAllTodos } from '../features/todos/todoSlice';
 
-// const initialItems: ChildItems = [
-//     {
-//         id: uuidv4(),
-//         title: 'Home',
-//         depth: 0,
-//         parent: null,
-//         collapsed: false,
-//         collapsedItem: false,
-//     },
-//     {
-//         id: uuidv4(),
-//         title: 'About',
-//         depth: 0,
-//         parent: null,
-//         collapsed: false,
-//         collapsedItem: false,
-//     },
-//     {
-//         id: uuidv4(),
-//         title: 'Contact',
-//         depth: 0,
-//         parent: null,
-//         collapsed: false,
-//         collapsedItem: false,
-//     },
-//     {
-//         id: uuidv4(),
-//         title: 'Shop',
-//         depth: 0,
-//         parent: null,
-//         collapsed: false,
-//         collapsedItem: false,
-//     },
-// ];
-
 const DNDChildren = () => {
     const allTodos = useAppSelector(state => state.todos);
     const [activeId, setActiveId] = useState<string | null | UniqueIdentifier>(
@@ -63,7 +28,7 @@ const DNDChildren = () => {
 
     function handleCollapse(id: string): void {
         // remove the item from the array
-        const newCollapsedItem = allTodos.map(item => {
+        const newCollapsedItems = allTodos.map(item => {
             if (item.parent === id) {
                 return {
                     ...item,
@@ -74,7 +39,7 @@ const DNDChildren = () => {
             }
         });
 
-        newCollapsedItem;
+        dispatch(updateAllTodos(newCollapsedItems));
     }
 
     // remove from list
@@ -129,6 +94,7 @@ const DNDChildren = () => {
         );
         const overItemIndex = allTodos.findIndex(item => item.id === overId);
         const previousItem = allTodos[activeItemIndex - 1];
+        const nextItem = allTodos[activeItemIndex + 1];
 
         // calculate parent id
         const parentId = () => {
@@ -161,10 +127,13 @@ const DNDChildren = () => {
             if (item.id === parentItem.parent) {
                 return {
                     ...item,
-                    collapsed: true,
+                    collapsed: !item.collapsed,
                 };
             } else {
-                return item;
+                return {
+                    ...item,
+                    collapsed: false,
+                };
             }
         });
 
@@ -179,8 +148,15 @@ const DNDChildren = () => {
         dispatch(updateAllTodos(newItemsArray));
     };
 
+    // console.log('all todos', allTodos);
+    // console.log('Active', activeId);
+
     return (
-        <>
+        <div className="w-1/3 mx-auto">
+            <h4 className="text-2xl font-medium">
+                Todo App With Nested Element
+            </h4>
+            <div className="divider"></div>
             <DndContext
                 onDragStart={handleDragStart}
                 onDragMove={handleDragMove}
@@ -228,7 +204,7 @@ const DNDChildren = () => {
                     )}
                 </SortableContext>
             </DndContext>
-        </>
+        </div>
     );
 };
 

@@ -43,7 +43,7 @@ const ChildrenItem = ({
     const marginLeft = depth && indentWidth ? indentWidth * depth : 0;
     return (
         <div
-            className={`bg-primary text-white flex p-4  items-center w-1/2 mx-auto my-2 rounded-lg relative transition-all ${
+            className={`bg-primary  text-white flex p-4  items-center w-full  my-2 rounded-lg relative transition-all ${
                 isDragging ? 'opacity-5' : 'opacity-100'
             } ${collapsedItem ? 'hidden' : 'block'}  ${
                 marginLeft ? 'left-[40px]' : ''
