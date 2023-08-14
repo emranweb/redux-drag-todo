@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Todos, todoStatus } from '../../types';
+import { Todos, TodoStatus } from '../../types';
 
 const getLocalStorageTodos: string | null = localStorage.getItem('todos');
 const initialState: Todos = JSON.parse(getLocalStorageTodos || '[]');
@@ -24,7 +24,7 @@ const todosSlice = createSlice({
                     return {
                         ...todo,
                         completed: !todo.completed,
-                        status: todoStatus.complete,
+                        status: TodoStatus.complete,
                     };
                 }
                 return todo;
@@ -38,7 +38,7 @@ const todosSlice = createSlice({
                     return {
                         ...todo,
                         completed: false,
-                        status: todoStatus.inprogress,
+                        status: TodoStatus.inprogress,
                     };
                 }
                 return todo;
@@ -55,7 +55,7 @@ const todosSlice = createSlice({
                     return {
                         ...todo,
                         completed: false,
-                        status: todoStatus.backlog,
+                        status: TodoStatus.backlog,
                     };
                 }
                 return todo;

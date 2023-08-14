@@ -14,12 +14,12 @@ import {
 } from '../features/todos/todoSlice';
 import { createPortal } from 'react-dom';
 import KanbanTodoList from './KanbanTodoList';
-import { todoStatus } from '../types';
+import { TodoStatus } from '../types';
 import KanbanTodoItem from './KanbanTodoItem';
 
 const KanbanTodos = () => {
     const allTodos = useAppSelector(state => state.todos);
-    const [todoContainerTitle] = useState<string[]>(Object.values(todoStatus));
+    const [todoContainerTitle] = useState<string[]>(Object.values(TodoStatus));
     const [activeId, setActiveId] = useState<number | string | null>(null);
     const dispatach = useAppDispatch();
 
@@ -41,13 +41,13 @@ const KanbanTodos = () => {
                 dispatach(changeIndex(newTodos));
             }
         } else {
-            if (overContainer === todoStatus.backlog) {
+            if (overContainer === TodoStatus.backlog) {
                 dispatach(todoMarkBacklog(active.id));
             }
-            if (overContainer === todoStatus.inprogress) {
+            if (overContainer === TodoStatus.inprogress) {
                 dispatach(todoMarkInProgess(active.id));
             }
-            if (overContainer === todoStatus.complete) {
+            if (overContainer === TodoStatus.complete) {
                 dispatach(todoMarkCompleted(active.id));
             }
         }

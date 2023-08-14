@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Todo, todoStatus } from '../types/index';
+import { Todo, TodoStatus } from '../types/index';
 interface TodoItemProps {
     todo: Todo;
 }
@@ -23,9 +23,9 @@ const KanbanTodoItem: React.FC<TodoItemProps> = ({ todo }) => {
             {...attributes}
             style={style}
             className={`flex justify-start items-center p-4 text-white  space-x-4 border-b border-gray-400/20 last:border-0  rounded-lg mb-2 ${
-                status === todoStatus.complete ? 'bg-success' : ''
-            } ${status === todoStatus.inprogress ? 'bg-warning' : ''} ${
-                status === todoStatus.backlog ? 'bg-primary' : ''
+                status === TodoStatus.complete ? 'bg-success' : ''
+            } ${status === TodoStatus.inprogress ? 'bg-warning' : ''} ${
+                status === TodoStatus.backlog ? 'bg-primary' : ''
             } `}
         >
             <div className={`select-none flex flex-1`}>{title}</div>

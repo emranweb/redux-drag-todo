@@ -1,7 +1,7 @@
 // export type todoStatus = 'backlog' | 'inprogress' | 'complete';
-export type priority = 'high' | 'medium' | 'low';
+export type Priority = 'high' | 'medium' | 'low';
 
-export enum todoStatus {
+export enum TodoStatus {
     backlog = 'backlog',
     inprogress = 'inprogress',
     complete = 'complete',
@@ -12,9 +12,9 @@ export interface Todo {
     title: string;
     edit: boolean;
     dueDate?: string;
-    priority?: priority;
+    priority?: Priority;
     completed?: boolean;
-    status: todoStatus;
+    status: TodoStatus;
     parent?: null | string;
     depth: number;
     indentWidth?: number | undefined;

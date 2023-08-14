@@ -2,50 +2,40 @@ import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/app';
 import { addTodo, updateTodoTitle } from '../features/todos/todoSlice';
 import { v4 as uuidv4 } from 'uuid';
-import { todoStatus } from '../types';
+import { TodoStatus } from '../types';
 
 const Header = () => {
     const todos = useAppSelector(state => state.todos);
-
     // find todo that enable edit
     const editTodo = todos.find(item => item.edit === true);
-    const [data, setData] = useState({ value: editTodo ? editTodo.title : '' });
+    const [inputData, setInputData] = useState({
+        value: '',
+    });
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         if (editTodo) {
-            setData({ value: editTodo.title });
+            setInputData({ value: editTodo.title });
+        } else {
+            setInputData({ value: '' });
         }
     }, [editTodo]);
 
-    //hanlde input change
+    // update input data state when input change
     const handleInputChange = (
         event: React.ChangeEvent<HTMLInputElement>
     ): void => {
-        setData({ value: event.target.value });
+        setInputData({ value: event.target.value });
     };
-
-    // id: string;
-    // title: string;
-    // edit: boolean;
-    // dueDate?: string;
-    // priority?: priority;
-    // completed?: boolean;
-    // status: todoStatus;
-    // parent?: null | string;
-    // depth: number;
-    // indentWidth?: number | undefined;
-    // collapsed?: boolean;
-    // collapsedItem?: boolean;
-
+    // submit the new task to todos state
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
-        if (!data.value) return;
+        if (!inputData.value) return;
         if (editTodo) {
             dispatch(
                 updateTodoTitle({
                     id: editTodo.id,
-                    title: data.value,
+                    title: inputData.value,
                 })
             );
         } else {
@@ -53,9 +43,9 @@ const Header = () => {
                 addTodo({
                     id: uuidv4(),
                     edit: false,
-                    title: data.value,
+                    title: inputData.value,
                     completed: false,
-                    status: todoStatus.backlog,
+                    status: TodoStatus.backlog,
                     parent: null,
                     depth: 0,
                     collapsed: false,
@@ -63,16 +53,15 @@ const Header = () => {
                 })
             );
         }
-
-        // clear the input field
-        setData({ value: '' });
+        setInputData({ value: '' });
     };
 
     return (
-        <div className="w-1/2 mx-auto mt-4">
+        <div className="w-1/2 mx-auto my-4">
             <form onSubmit={handleSubmit} className="flex">
                 <input
                     type="text"
+                    value={inputData.value}
                     placeholder="Type here"
                     onChange={handleInputChange}
                     className="input input-bordered w-full"

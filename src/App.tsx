@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import KanbanTodos from './kanban-todo/KanbanTodos';
 import DNDChildren from './dnd-child/DNDChildren';
 import Header from './components/Header';
+import Footer from './components/Footer';
 
 function App() {
     return (
@@ -13,6 +14,7 @@ function App() {
                 <Header />
                 {/* <KanbanTodos /> */}
                 <DNDChildren />
+                <Footer />
             </div>
         </div>
     );
