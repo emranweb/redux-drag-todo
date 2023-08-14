@@ -13,6 +13,11 @@ const todosSlice = createSlice({
             localStorage.setItem('todos', JSON.stringify(stateWithNewTodo));
             return stateWithNewTodo;
         },
+        updateAllTodos: (state, action) => {
+            const newStateData = [...action.payload];
+            localStorage.setItem('todos', JSON.stringify(newStateData));
+            return newStateData;
+        },
         todoMarkCompleted: (state, action) => {
             const updateTodoAsComplete: Todos = state.map(todo => {
                 if (todo.id === action.payload) {
@@ -58,7 +63,7 @@ const todosSlice = createSlice({
             localStorage.setItem('todos', JSON.stringify(data));
             return data;
         },
-        updateTodo: (state, action) => {
+        updateTodoTitle: (state, action) => {
             const { title } = action.payload;
             if (title) {
                 const updateTodoTitle: Todos = state.map(todo => {
@@ -104,8 +109,9 @@ export const {
     removeFromTodos,
     todoMarkCompleted,
     todoMarkInProgess,
-    updateTodo,
+    updateTodoTitle,
     todoMarkBacklog,
+    updateAllTodos,
     changeIndex,
 } = todosSlice.actions;
 

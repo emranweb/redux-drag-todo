@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/app';
-import { addTodo, updateTodo } from '../features/todos/todoSlice';
+import { addTodo, updateTodoTitle } from '../features/todos/todoSlice';
 import { v4 as uuidv4 } from 'uuid';
 import { todoStatus } from '../types';
 
@@ -43,7 +43,7 @@ const Header = () => {
         if (!data.value) return;
         if (editTodo) {
             dispatch(
-                updateTodo({
+                updateTodoTitle({
                     id: editTodo.id,
                     title: data.value,
                 })
@@ -59,6 +59,8 @@ const Header = () => {
                     parent: null,
                     depth: 0,
                     date: new Date(),
+                    collapsed: false,
+                    collapsedItem: false,
                 })
             );
         }
@@ -70,35 +72,14 @@ const Header = () => {
     return (
         <div className="w-1/2 mx-auto mt-4">
             <form onSubmit={handleSubmit} className="flex">
-                {/* <input
-                    type="text"
-                    value={data.value}
-                    onChange={handleInputChange}
-                    placeholder="Type your todo"
-                    className="w-full text-lg px-4 py-1 border-none outline-none bg-gray-100 text-gray-500"
-                /> */}
                 <input
                     type="text"
                     placeholder="Type here"
                     onChange={handleInputChange}
                     className="input input-bordered w-full"
                 />
-                {/* <button
-                    type="submit"
-                    className="appearance-none w-8 h-8 bg-[url('./images/plus.png')] bg-no-repeat bg-contain"
-                ></button> */}
                 <button className="btn btn-primary ml-4">Add New Task</button>
             </form>
-
-            {/* <ul className="flex justify-between my-4 text-xs text-gray-500">
-        <li className="flex space-x-1 cursor-pointer">
-          <img className="w-4 h-4" src={doubleTickImage} alt="Complete" />
-          <span onClick={handleCompleteAll}>Complete All Tasks</span>
-        </li>
-        <li className="cursor-pointer" onClick={handleClearAll}>
-          Clear completed
-        </li>
-      </ul> */}
         </div>
     );
 };
