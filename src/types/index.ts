@@ -1,3 +1,5 @@
+import { UniqueIdentifier } from '@dnd-kit/core';
+
 // export type todoStatus = 'backlog' | 'inprogress' | 'complete';
 export type Priority = 'high' | 'medium' | 'low';
 
@@ -15,7 +17,7 @@ export interface Todo {
     priority?: Priority;
     completed?: boolean;
     status: TodoStatus;
-    parent?: null | string;
+    parent?: null | string | UniqueIdentifier;
     depth: number;
     indentWidth?: number | undefined;
     collapsed?: boolean;

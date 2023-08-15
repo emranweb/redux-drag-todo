@@ -12,7 +12,7 @@ function App() {
             <div className="font-sans">
                 <Navbar />
                 <Header />
-                {/* <KanbanTodos /> */}
+                <KanbanTodos />
                 <DNDChildren />
                 <Footer />
             </div>

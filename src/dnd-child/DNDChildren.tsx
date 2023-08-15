@@ -12,6 +12,7 @@ import { createPortal } from 'react-dom';
 import { useAppDispatch, useAppSelector } from '../hooks/app';
 import ChildrenItem from './ChildrenItem';
 import { updateAllTodos } from '../features/todos/todoSlice';
+import { Todos } from '../types';
 
 const DNDChildren = () => {
     const allTodos = useAppSelector(state => state.todos);
@@ -95,43 +96,101 @@ const DNDChildren = () => {
         const overItemIndex = allTodos.findIndex(item => item.id === overId);
         const previousItem = allTodos[activeItemIndex - 1];
         const nextItem = allTodos[activeItemIndex + 1];
-
-        // calculate parent id
-        const parentId = () => {
-            if (previousItem && dragPosition === 1) {
-                if (previousItem.parent === null) {
-                    return previousItem.id;
-                } else {
-                    return previousItem.parent;
-                }
-            } else {
-                return null;
-            }
-        };
-
-        // if (previousItem && nextItem && dragPosition == 0) {
-        //     if (nextItem.parent) {
-        //         const nextItemParentIdChange = allTodos
-        //             .filter(todo => todo.parent == nextItem.parent)
-        //             .map(item => {
-        //                 return {
-        //                     ...item,
-        //                     parent: activeId,
-        //                 };
-        //             });
-        //     }
-        // }
-
-        // create new of items with new position
-        const newItems = allTodos.map(todo => {
-            if (todo.id === activeId) {
-                if (dragPosition === 1) {
+        let newArray;
+        if (dragPosition === 1 && previousItem?.parent) {
+            newArray = allTodos.map(todo => {
+                if (todo.id == activeId) {
                     return {
                         ...todo,
-                        parent: parentId(),
+                        parent: previousItem.parent,
                         depth: dragPosition,
                     };
-                } else if (dragPosition === 0) {
+                } else {
+                    return {
+                        ...todo,
+                    };
+                }
+            });
+        } else if (dragPosition === 1 && previousItem && !previousItem.parent) {
+            newArray = allTodos.map(todo => {
+                if (todo.id == activeId) {
+                    return {
+                        ...todo,
+                        parent: previousItem.id,
+                        depth: dragPosition,
+                    };
+                } else {
+                    return {
+                        ...todo,
+                    };
+                }
+            });
+        } else if (dragPosition === 1 && !previousItem) {
+            newArray = allTodos.map(todo => {
+                if (todo.id == activeId) {
+                    return {
+                        ...todo,
+                        parent: null,
+                        depth: 0,
+                    };
+                } else {
+                    return {
+                        ...todo,
+                    };
+                }
+            });
+        } else if (dragPosition === 0 && nextItem?.parent) {
+            const nextItems = allTodos
+                .slice(activeItemIndex)
+                .filter(todo => todo.parent === nextItem.parent);
+
+            const cloneAllTodos: Todos = [...allTodos];
+            if (nextItems.length > 2) {
+                nextItems.forEach(item => {
+                    const existItem = cloneAllTodos.find(
+                        single => single.id === item.id
+                    );
+                    if (existItem) {
+                        const updatedItem = {
+                            ...existItem,
+                            parent: activeId,
+                        };
+                        const index = cloneAllTodos.indexOf(existItem);
+                        cloneAllTodos[index] = updatedItem;
+                    }
+                    if (item.id === activeId) {
+                        const index = cloneAllTodos.indexOf(item);
+                        cloneAllTodos[index] = {
+                            ...item,
+                            parent: null,
+                            depth: 0,
+                        };
+                    }
+                });
+            } else {
+                cloneAllTodos.forEach(item => {
+                    if (item.id === nextItems[0].id) {
+                        const updateItem = { ...item, parent: activeId };
+                        const index = cloneAllTodos.indexOf(item);
+                        cloneAllTodos[index] = updateItem;
+                    }
+
+                    if (activeId === item.id) {
+                        const updatedItem = {
+                            ...item,
+                            parent: null,
+                            depth: 0,
+                        };
+                        const index = cloneAllTodos.indexOf(item);
+                        cloneAllTodos[index] = updatedItem;
+                    }
+                });
+            }
+
+            newArray = [...cloneAllTodos];
+        } else if (dragPosition === 0 && !nextItem?.parent) {
+            newArray = allTodos.map(todo => {
+                if (todo.id == activeId) {
                     return {
                         ...todo,
                         parent: null,
@@ -142,16 +201,14 @@ const DNDChildren = () => {
                         ...todo,
                     };
                 }
-            } else {
-                return {
-                    ...todo,
-                };
-            }
-        });
+            });
+        } else {
+            newArray = allTodos;
+        }
 
-        const parentItem = newItems.filter(item => item.id === activeId)[0];
+        const parentItem = newArray.filter(item => item.id === activeId)[0];
 
-        const parentCollapse = newItems.map(item => {
+        const parentCollapse = newArray.map(item => {
             if (item.id === parentItem.parent) {
                 return {
                     ...item,
@@ -175,9 +232,6 @@ const DNDChildren = () => {
         // set the array to store
         dispatch(updateAllTodos(newItemsArray));
     };
-
-    // console.log('all todos', allTodos);
-    // console.log('Active', activeId);
 
     return (
         <div className="w-1/3 mx-auto">
