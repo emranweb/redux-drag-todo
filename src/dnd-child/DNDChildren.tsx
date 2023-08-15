@@ -108,16 +108,44 @@ const DNDChildren = () => {
                 return null;
             }
         };
+
+        // if (previousItem && nextItem && dragPosition == 0) {
+        //     if (nextItem.parent) {
+        //         const nextItemParentIdChange = allTodos
+        //             .filter(todo => todo.parent == nextItem.parent)
+        //             .map(item => {
+        //                 return {
+        //                     ...item,
+        //                     parent: activeId,
+        //                 };
+        //             });
+        //     }
+        // }
+
         // create new of items with new position
-        const newItems = allTodos.map(item => {
-            if (item.id === activeId) {
-                return {
-                    ...item,
-                    parent: parentId(),
-                    depth: dragPosition,
-                };
+        const newItems = allTodos.map(todo => {
+            if (todo.id === activeId) {
+                if (dragPosition === 1) {
+                    return {
+                        ...todo,
+                        parent: parentId(),
+                        depth: dragPosition,
+                    };
+                } else if (dragPosition === 0) {
+                    return {
+                        ...todo,
+                        parent: null,
+                        depth: dragPosition,
+                    };
+                } else {
+                    return {
+                        ...todo,
+                    };
+                }
             } else {
-                return item;
+                return {
+                    ...todo,
+                };
             }
         });
 
