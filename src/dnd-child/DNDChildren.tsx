@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import {
     DndContext,
     DragMoveEvent,
@@ -6,7 +7,6 @@ import {
     DragStartEvent,
     UniqueIdentifier,
 } from '@dnd-kit/core';
-import React, { useState } from 'react';
 import { SortableContext, arrayMove } from '@dnd-kit/sortable';
 import { createPortal } from 'react-dom';
 import { useAppDispatch, useAppSelector } from '../hooks/app';
@@ -28,7 +28,7 @@ const DNDChildren = () => {
     const dispatch = useAppDispatch();
 
     function handleCollapse(id: string): void {
-        // remove the item from the array
+        //remove the item from the array
         const newCollapsedItems = allTodos.map(item => {
             if (item.parent === id) {
                 return {
@@ -39,7 +39,6 @@ const DNDChildren = () => {
                 return item;
             }
         });
-
         dispatch(updateAllTodos(newCollapsedItems));
     }
 
@@ -97,6 +96,7 @@ const DNDChildren = () => {
         const previousItem = allTodos[activeItemIndex - 1];
         const nextItem = allTodos[activeItemIndex + 1];
         let newArray;
+
         if (dragPosition === 1 && previousItem?.parent) {
             newArray = allTodos.map(todo => {
                 if (todo.id == activeId) {
@@ -113,6 +113,11 @@ const DNDChildren = () => {
             });
         } else if (dragPosition === 1 && previousItem && !previousItem.parent) {
             newArray = allTodos.map(todo => {
+                if (todo.id === previousItem.id) {
+                    return {
+                        ...todo,
+                    };
+                }
                 if (todo.id == activeId) {
                     return {
                         ...todo,
@@ -206,25 +211,25 @@ const DNDChildren = () => {
             newArray = allTodos;
         }
 
-        const parentItem = newArray.filter(item => item.id === activeId)[0];
+        // const parentItem = newArray.filter(item => item.id === activeId)[0];
 
-        const parentCollapse = newArray.map(item => {
-            if (item.id === parentItem.parent) {
-                return {
-                    ...item,
-                    collapsed: !item.collapsed,
-                };
-            } else {
-                return {
-                    ...item,
-                    collapsed: false,
-                };
-            }
-        });
+        // const parentCollapse = newArray.map(item => {
+        //     if (item.id === parentItem.parent) {
+        //         return {
+        //             ...item,
+        //             collapsed: !item.collapsed,
+        //         };
+        //     } else {
+        //         return {
+        //             ...item,
+        //             collapsed: false,
+        //         };
+        //     }
+        // });
 
         // create the new array after chagne the position
         const newItemsArray = arrayMove(
-            parentCollapse,
+            newArray,
             activeItemIndex,
             overItemIndex
         );
