@@ -45,3 +45,7 @@ This project is licensed under the MIT License. For more information, see the [L
 ```
 
 This is your README file for the My Todo App. It includes information about the app, installation instructions, usage guidance, and contribution details. You can adjust the content as needed to better fit your application.
+
+## Image
+<img width="1680" alt="todo" src="https://github.com/emranweb/redux-todo/assets/5980298/b258e3ab-b392-4804-8369-0a91c2df4a61">
+
