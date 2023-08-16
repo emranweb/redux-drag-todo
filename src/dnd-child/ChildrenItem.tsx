@@ -3,7 +3,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Handle } from './Handle';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
-import { BiCollapseAlt } from 'react-icons/bi';
+import { BiCollapseAlt, BiMessageSquareEdit } from 'react-icons/bi';
 
 interface ChildItemTypes {
     id: string;
@@ -14,6 +14,7 @@ interface ChildItemTypes {
     collapsedItem: boolean | undefined;
     handleCollapse: (id: string) => void;
     handleRemove: (id: string) => void;
+    editTodo: (id: string) => void;
 }
 
 const ChildrenItem = ({
@@ -25,6 +26,7 @@ const ChildrenItem = ({
     collapsedItem,
     handleCollapse,
     handleRemove,
+    editTodo,
 }: ChildItemTypes) => {
     const {
         isDragging,
@@ -62,11 +64,20 @@ const ChildrenItem = ({
                     {...attributes}
                 />
                 {collapsed && (
-                    <span onClick={() => handleCollapse(id)}>
+                    <div
+                        className="absolute left-[20%]"
+                        onClick={() => handleCollapse(id)}
+                    >
                         <BiCollapseAlt />
-                    </span>
+                    </div>
                 )}
                 {title}
+                <div
+                    onClick={() => editTodo(id)}
+                    className="absolute right-[10%]"
+                >
+                    <BiMessageSquareEdit />
+                </div>
                 {/* {Item Remove } */}
                 <span className="pointer" onClick={() => handleRemove(id)}>
                     <AiOutlineCloseCircle />

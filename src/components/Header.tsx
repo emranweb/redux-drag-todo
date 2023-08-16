@@ -48,7 +48,7 @@ const Header = () => {
                     status: TodoStatus.backlog,
                     parent: null,
                     depth: 0,
-                    collapsed: false,
+                    collapsed: true,
                     collapsedItem: false,
                 })
             );

@@ -26,7 +26,15 @@ const DNDChildren = () => {
     );
 
     const dispatch = useAppDispatch();
+    // edit todo
+    const editTodo = (id: string): void => {
+        const editTodos = allTodos.map(item =>
+            item.id === id ? { ...item, edit: true } : { ...item, edit: false }
+        );
 
+        dispatch(updateAllTodos(editTodos));
+    };
+    // handle collapsed
     function handleCollapse(id: string): void {
         //remove the item from the array
         const newCollapsedItems = allTodos.map(item => {
@@ -213,23 +221,23 @@ const DNDChildren = () => {
 
         // const parentItem = newArray.filter(item => item.id === activeId)[0];
 
-        // const parentCollapse = newArray.map(item => {
-        //     if (item.id === parentItem.parent) {
-        //         return {
-        //             ...item,
-        //             collapsed: !item.collapsed,
-        //         };
-        //     } else {
-        //         return {
-        //             ...item,
-        //             collapsed: false,
-        //         };
-        //     }
-        // });
+        const parentCollapse = newArray.map(item => {
+            if (item.parent) {
+                return {
+                    ...item,
+                    collapsed: false,
+                };
+            } else {
+                return {
+                    ...item,
+                    collapsed: true,
+                };
+            }
+        });
 
         // create the new array after chagne the position
         const newItemsArray = arrayMove(
-            newArray,
+            parentCollapse,
             activeItemIndex,
             overItemIndex
         );
@@ -263,6 +271,7 @@ const DNDChildren = () => {
                                 indentWidth={indentWidth}
                                 handleCollapse={handleCollapse}
                                 handleRemove={handleRemove}
+                                editTodo={editTodo}
                             />
                         );
                     })}
@@ -282,6 +291,7 @@ const DNDChildren = () => {
                                               handleCollapse={handleCollapse}
                                               handleRemove={handleRemove}
                                               collapsedItem={item.collapsedItem}
+                                              editTodo={editTodo}
                                           />
                                       ) : null
                                   )
